@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camila Arcanjo | Advocacia & Consultoria Jurídica</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; font-family: 'Montserrat', sans-serif; color: #2C2C2A; background-color: #F5EFE6; line-height: 1.6; }
+        h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 600; }
+        
+        /* Cores e Alinhamento */
+        .bg-vinho { background-color: #5C1A2B; color: #FFFFFF; }
+        .bg-creme { background-color: #F5EFE6; color: #2C2C2A; }
+        .text-dourado { color: #C9A96E; }
+        
+        /* Container Global */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Menu / Header */
+        header { padding: 30px 20px; text-align: center; border-bottom: 1px solid rgba(201, 169, 110, 0.3); }
+        .logo { font-size: 1.4rem; letter-spacing: 3px; font-weight: 500; margin: 0; color: #FFFFFF; }
+        .logo span { color: #C9A96E; font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: normal; font-size: 1.1rem; letter-spacing: 1px; display: block; margin-top: 5px; }
+
+        /* Hero Section */
+        .hero { padding: 90px 20px; text-align: center; }
+        .hero h1 { font-size: 3.2rem; margin: 0 0 25px 0; line-height: 1.2; }
+        .hero p { max-width: 650px; margin: 0 auto 40px; font-size: 1.15rem; font-weight: 300; opacity: 0.9; }
+        
+        /* Botões */
+        .cta-container { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        .btn { display: inline-block; padding: 14px 32px; background-color: #C9A96E; color: #2C2C2A; text-decoration: none; font-weight: 600; font-size: 0.9rem; border-radius: 4px; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; border: 1px solid #C9A96E; }
+        .btn:hover { background-color: #b3945b; border-color: #b3945b; cursor: pointer; }
+        .btn-vazado { background-color: transparent; border: 1px solid #FFFFFF; color: #FFFFFF; }
+        .btn-vazado:hover { background-color: #FFFFFF; color: #5C1A2B; border-color: #FFFFFF; }
+        .btn-diagnostico { background-color: #5C1A2B; color: #FFFFFF; border: 1px solid #C9A96E; }
+        .btn-diagnostico:hover { background-color: #C9A96E; color: #2C2C2A; }
+
+        /* Serviços */
+        .servicos { padding: 90px 0; text-align: center; }
+        .servicos h2 { font-size: 2.5rem; color: #5C1A2B; margin: 0 0 15px 0; }
+        .section-subtitle { max-width: 600px; margin: 0 auto 50px; font-weight: 300; color: #555; font-size: 1.05rem; }
+        .grid-servicos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 40px; }
+        .card { background: #FFFFFF; padding: 40px 30px; border: 1px solid rgba(201, 169, 110, 0.4); border-radius: 4px; text-align: left; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(92, 26, 43, 0.05); }
+        .card h3 { font-size: 1.6rem; margin: 0 0 15px 0; color: #5C1A2B; border-left: 3px solid #C9A96E; padding-left: 12px; }
+        .card p { margin: 0; font-size: 0.95rem; color: #4A4A48; font-weight: 300; }
+
+        /* Diagnóstico Destaque Intermediário */
+        .diagnostico-banner { padding: 60px 30px; background-color: #FFFFFF; border: 1px solid #C9A96E; border-radius: 4px; margin: 30px auto 0; text-align: center; max-width: 850px; }
+        .diagnostico-banner h3 { font-size: 1.8rem; color: #5C1A2B; margin: 0 0 10px 0; }
+        .diagnostico-banner p { max-width: 600px; margin: 0 auto 25px; font-weight: 300; font-size: 1rem; color: #4A4A48; }
+
+        /* Newsletter */
+        .newsletter { padding: 90px 20px; text-align: center; border-top: 1px solid rgba(201, 169, 110, 0.3); }
+        .newsletter h2 { font-size: 2.5rem; margin: 0 0 15px 0; }
+        .newsletter p { max-width: 650px; margin: 0 auto 35px; font-weight: 300; font-size: 1.1rem; opacity: 0.9; }
+        
+        /* Sobre */
+        .sobre { padding: 90px 0; max-width: 850px; margin: 0 auto; text-align: center; }
+        .sobre h2 { font-size: 2.5rem; color: #5C1A2B; margin: 0 0 20px 0; }
+        .sobre p { font-size: 1.1rem; font-weight: 300; color: #2C2C2A; line-height: 1.8; margin: 0; }
+
+        /* Rodapé */
+        footer { padding: 50px 20px; text-align: center; font-size: 0.85rem; border-top: 1px solid rgba(201, 169, 110, 0.2); opacity: 0.8; }
+        footer p { margin: 5px 0; font-weight: 300; }
+    </style>
+</head>
+<body>
+
+    <!-- Header Institucional -->
+    <div class="bg-vinho">
+        <header class="container">
+            <p class="logo">CAMILA ARCANJO <span>ADVOCACIA & CONSULTORIA JURÍDICA</span></p>
+        </header>
+    </div>
+
+    <!-- Seção Principal (Hero) -->
+    <div class="bg-vinho hero">
+        <div class="container">
+            <h1>Inteligência Fiscal e Proteção Jurídica</h1>
+            <p>Advocacia corporativa de alta performance, focada em governança preventiva e segurança estratégica para o setor da saúde, médicos e empresas diante da Reforma Tributária.</p>
+            <div class="cta-container">
+                <a href="https://camilacaetano-advogada.github.io/diagnostico-tributario/" class="btn" target="_blank">Solicitar Diagnóstico Fiscal</a>
+                <a href="#servicos" class="btn btn-vazado">Conhecer Serviços</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seção de Serviços -->
+    <div id="servicos" class="bg-creme servicos">
+        <div class="container">
+            <h2>Áreas de Atuação Estratégica</h2>
+            <p class="section-subtitle">Soluções estruturadas e preventivas para garantir a conformidade legal e a integridade do seu caixa corporativo.</p>
+            
+            <div class="grid-servicos">
+                <div class="card">
+                    <h3>Planejamento Tributário</h3>
+                    <p>Auditoria profunda de passivos ocultos, diagnóstico de oportunidades legítimas de economia de impostos e modelagem preditiva para a transição dos regimes tributários.</p>
+                </div>
+                <div class="card">
+                    <h3>Setor da Saúde & Clínicas</h3>
+                    <p>Adequação rigorosa aos critérios da Anvisa para Equiparação Hospitalar, governança em contratos com planos de saúde e assessoria preventiva especializada para médicos.</p>
+                </div>
+                <div class="card">
+                    <h3>Pejotização Segura</h3>
+                    <p>Migração estratégica e estruturada do CPF para o CNPJ para plantonistas e prestadores de serviços de alto padrão, mitigando riscos de fiscalização previdenciária e INSS.</p>
+                </div>
+            </div>
+
+            <!-- Destaque para a ferramenta de diagnóstico -->
+            <div class="diagnostico-banner">
+                <h3>Avalie a Saúde Fiscal do seu Negócio</h3>
+                <p>Utilize nossa aplicação exclusiva de diagnóstico rápido para mapear os gargalos tributários iniciais da sua empresa ou estrutura de pejotização.</p>
+                <a href="https://camilacaetano-advogada.github.io/diagnostico-tributario/" class="btn btn-diagnostico" target="_blank">Iniciar Diagnóstico Gratuito</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seção da Newsletter (Substack) -->
+    <div class="bg-vinho newsletter">
+        <div class="container">
+            <h2 class="text-dourado">Bastidores do Mercado: Insights Semanais</h2>
+            <p>Análises técnicas puras, estudos sobre decisões do CARF e os reflexos práticos do IVA compilados em leituras essenciais de 5 minutos diretamente na sua caixa de entrada.</p>
+            <a href="https://carcanjo.substack.com" class="btn" target="_blank">Inscrever-se na Newsletter</a>
+        </div>
+    </div>
+
+    <!-- Seção Sobre a Fundadora -->
+    <div class="bg-creme sobre">
+        <div class="container">
+            <h2>Sobre a Fundadora</h2>
+            <p><strong>Camila Arcanjo</strong> é sócia-fundadora e consultora jurídica. Pós-graduanda em Direito Tributário com foco em Regimes Fiscais e Simples Nacional, alia o rigor técnico à visão de negócios. Atua com excelência no desenho de blindagens patrimoniais, governança corporativa e soluções sob medida para mitigar riscos de fiscalização digital e eletrônica de empresários e profissionais da saúde.</p>
+        </div>
+    </div>
+
+    <!-- Rodapé -->
+    <div class="bg-vinho">
+        <footer class="container">
+            <p>© 2026 Camila Arcanjo – Advocacia e Consultoria Jurídica. Todos os direitos reservados.</p>
+            <p style="font-size: 0.75rem; opacity: 0.6; max-width: 700px; margin: 15px auto 0;">Informativo de caráter estritamente institucional e educativo, em estrita observância às normas do Código de Ética e Disciplina e do Provimento nº 205/2021 da Ordem dos Advogados do Brasil (OAB).</p>
+        </footer>
+    </div>
+
+</body>
+</html>
