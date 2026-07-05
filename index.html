@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Oráculo da Saúde — Tributos | Camila Arcanjo</title>
+<meta name="description" content="Consultoria jurídica especializada em tributos para saúde. Análise de ISS, INSS, PIS/COFINS, equiparação hospitalar e defesa em autuações tributárias.">
+<meta name="keywords" content="direito tributário, saúde, ISS, INSS, PIS/COFINS, tributos médico, consultoria jurídica">
+<meta property="og:title" content="Oráculo da Saúde — Tributos | Camila Arcanjo">
+<meta property="og:description" content="Consultoria jurídica especializada em tributos para saúde. Análise de ISS, INSS, PIS/COFINS, equiparação hospitalar.">
+<meta name="theme-color" content="#2A1A21">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -46,6 +51,17 @@
   .serif{ font-family:'Fraunces', serif; }
 
   a{ color:inherit; text-decoration:none; }
+
+  .sr-only{
+    position:absolute;
+    width:1px; height:1px;
+    padding:0;
+    margin:-1px;
+    overflow:hidden;
+    clip:rect(0,0,0,0);
+    white-space:nowrap;
+    border-width:0;
+  }
 
   /* ===== NAV ===== */
   nav{
@@ -391,6 +407,7 @@
     color:#3A2A24;
     outline:none;
   }
+  .lead-fields input:focus{ border-color:var(--gold); }
   @media(max-width:560px){ .lead-fields{ grid-template-columns:1fr; } }
 
   .capture-submit{
@@ -436,7 +453,8 @@
   /* ===== WHATSAPP FLOAT ===== */
   .whats-float{
     position:fixed;
-    bottom:28px; right:28px;
+    bottom:max(28px, env(safe-area-inset-bottom));
+    right:max(28px, env(safe-area-inset-right));
     z-index:1500;
     width:58px; height:58px;
     border-radius:50%;
@@ -457,7 +475,7 @@
     transform:translateY(-3px) scale(1.05);
     box-shadow:0 18px 40px -8px var(--shadow);
   }
-  .whats-float svg{ width:26px; height:26px; }
+  .whats-float svg{ width:26px; height:26px; fill:currentColor; }
 
   .whats-tooltip{
     position:absolute;
@@ -483,7 +501,7 @@
   }
 
   @media(max-width:600px){
-    .whats-float{ width:52px; height:52px; bottom:20px; right:20px; }
+    .whats-float{ width:52px; height:52px; }
     .whats-tooltip{ display:none; }
   }
 
@@ -563,7 +581,7 @@
     <div class="service-card">
       <div class="idx">02</div>
       <h3>Equiparação Hospitalar</h3>
-      <p>Análise de habilitação real para redução de IRPJ/CSLL. Avaliação de estrutura, serviços prestados e documentação antes de qualquer aplicação — para evitar autuação por planejamento abusivo.</p>
+      <p>Análise de habilitação real para redução de IRPJ/CSLL. Avaliação de estrutura, serviços prestados e documentação antes de qualquer aplicação — para evitar autuação por planejamento tributário agressivo.</p>
       <div class="link">Diagnóstico de elegibilidade</div>
     </div>
     <div class="service-card">
@@ -617,6 +635,7 @@
   </div>
 
   <div class="capture-wrap">
+    <label for="doubt" class="sr-only">Sua dúvida tributária</label>
     <textarea id="doubt" placeholder="Descreva sua dúvida aqui... É uma questão de PIS/COFINS, ou sobre ISS de clínica médica?"></textarea>
 
     <div class="lead-fields" id="leadFields">
@@ -628,14 +647,14 @@
       <button class="btn-gold" id="sendBtn">Enviar minha dúvida</button>
     </div>
 
-    <p class="promise">Tratamos suas questões com a confidencialidade de um consultório médico.<br>Sua dúvida será respondida <strong>privadamente por WhatsApp</strong> por nossa especialista em até <strong>48 horas</strong>. Zero spam.</p>
+    <p class="promise">Tratamos suas questões com a confidencialidade de um consultório médico.<br>Sua dúvida será respondida <strong>privadamente por WhatsApp</strong> por nossa especialista em tributação de saúde.</p>
   </div>
 
   <div class="spoiler-section">
     <div class="spoiler-title">Últimas questões desafiadoras processadas</div>
-    <div class="spoiler-item"><span class="tag2">CEO · Hospital · SP</span><span class="blurred">Reorganização societária para redução de base de PIS/COFINS...</span></div>
-    <div class="spoiler-item"><span class="tag2">Diretor Financeiro · Clínica de Imagem · RJ</span><span class="blurred">Responsabilidade pessoal por autuação de ISS retroativo...</span></div>
-    <div class="spoiler-item"><span class="tag2">Sócio-Médico · Hospital · MG</span><span class="blurred">Viabilidade de equiparação hospitalar após negativa da Receita...</span></div>
+    <div class="spoiler-item"><span class="tag2">CEO · Hospital · SP</span><span class="blurred">Reorganização societária para redução de base de PIS/COFINS.</span></div>
+    <div class="spoiler-item"><span class="tag2">Diretor Financeiro · Clínica de Imagem · RJ</span><span class="blurred">Responsabilidade pessoal por autuação de ISS retroativo.</span></div>
+    <div class="spoiler-item"><span class="tag2">Sócio-Médico · Hospital · MG</span><span class="blurred">Viabilidade de equiparação hospitalar após negativa da Receita.</span></div>
   </div>
 </section>
 
@@ -646,9 +665,9 @@
   <div class="oab">Atuação 100% remota · Ipatinga, MG</div>
 </footer>
 
-<div class="modal-overlay" id="modalOverlay">
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-labelledby="modalQ" aria-modal="true">
   <div class="modal">
-    <button class="modal-close" id="modalClose">&times;</button>
+    <button class="modal-close" id="modalClose" aria-label="Fechar modal">&times;</button>
     <div class="mono-mini">CA</div>
     <div class="cat" id="modalCat"></div>
     <h3 id="modalQ"></h3>
@@ -657,11 +676,11 @@
   </div>
 </div>
 
-<a href="https://wa.me/5531984609936" target="_blank" rel="noopener" class="whats-float" aria-label="Falar no WhatsApp">
+<a href="https://wa.me/5531984609936" target="_blank" rel="noopener" class="whats-float" aria-label="Falar no WhatsApp com Camila Arcanjo">
   <span class="whats-tooltip">Falar comigo agora</span>
-  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M17.6 6.32A8.86 8.86 0 0 0 12.02 3.5 8.94 8.94 0 0 0 3.1 12.42a8.9 8.9 0 0 0 1.32 4.7L3.5 21l3.98-1.04a8.9 8.9 0 0 0 4.53 1.24h.01a8.94 8.94 0 0 0 8.92-8.92 8.9 8.9 0 0 0-3.34-6.96Z" stroke="#E3C793" stroke-width="1.3"/>
-    <path d="M9.3 8.1c.15-.35.32-.36.5-.36.15 0 .32 0 .46.01.15.01.36-.06.56.42.2.5.7 1.7.75 1.83.06.14.1.3 0 .48-.1.19-.15.3-.29.45-.14.16-.3.35-.42.47-.14.14-.3.29-.13.58.18.3.79 1.3 1.71 2.1 1.17 1.03 2.16 1.36 2.47 1.51.31.15.5.13.68-.08.19-.21.79-.9.99-1.22.2-.31.4-.26.68-.16.29.1 1.82.86 2.14 1.02.31.16.53.24.6.37.08.14.08.79-.19 1.55-.27.77-1.56 1.5-2.18 1.6-.56.09-1.27.13-2.05-.13-.46-.15-1.06-.35-1.83-.68-3.22-1.4-5.32-4.62-5.48-4.83-.16-.21-1.31-1.74-1.31-3.32s.83-2.35 1.13-2.67Z" fill="#E3C793"/>
+  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M17.6 6.32A8.86 8.86 0 0 0 12.02 3.5 8.94 8.94 0 0 0 3.1 12.42a8.9 8.9 0 0 0 1.32 4.7L3.5 21l3.98-1.04a8.9 8.9 0 0 0 4.53 1.24h.01a8.94 8.94 0 0 0 8.92-8.92 8.9 8.9 0 0 0-3.34-6.96Z" stroke="currentColor" stroke-width="0.5" stroke-linejoin="round"/>
+    <path d="M9.3 8.1c.15-.35.32-.36.5-.36.15 0 .32 0 .46.01.15.01.36-.06.56.42.2.5.7 1.7.75 1.83.06.14.1.3 0 .48-.1.19-.15.3-.29.45-.14.16-.3.35-.42.47-.14.14-.3.29-.13.58.18.3.79 1.3 1.71 2.1 1.17 1.04 2.07 1.38 2.37 1.48.15.05.26.04.36-.02.08-.05.13-.12.2-.2l.5-.73c.08-.1.14-.11.23-.06.08.04 1.3.65 1.53.77.23.11.38.17.43.27.05.13.05.75-.2 1.48-.25.72-.93 1.12-1.6 1.17-.58.05-1.26-.09-1.93-.35-.84-.32-1.6-.86-2.23-1.52-.37-.38-.68-.8-.93-1.26" stroke="currentColor" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 </a>
 
@@ -672,32 +691,32 @@
     {
       cat: "risco", catLabel: "Risco Fiscal",
       q: "Médicos com múltiplos vínculos podem estar pagando INSS em duplicidade?",
-      a: "Sim, é um dos cenários mais recorrentes na área da saúde. Quando o profissional acumula vínculos como CLT, prestação de serviço a hospitais e atuação como sócio, cada fonte pagadora recolhe a contribuição de forma isolada — sem considerar o teto do salário de contribuição do INSS. O resultado é recolhimento acima do limite legal, passível de restituição administrativa ou compensação. O ponto de atenção real não é a existência do direito, mas a comprovação documental de cada vínculo e do período de acúmulo, que precisa ser reconstituída com precisão antes de qualquer pedido."
+      a: "Sim, é um dos cenários mais recorrentes na área da saúde. Quando o profissional acumula vínculos como CLT, prestação de serviço a hospitais e atuação como sócio, cada fonte paga o INSS separadamente. O problema surge quando não há compensação automática. Médicos que atingem o teto de contribuição precisam levantar todo o histórico de recolhimentos e solicitar restituição ou compensação junto à Receita Federal — é rotina de compliance negligenciada."
     },
     {
       cat: "defesa", catLabel: "Direito de Defesa",
       q: "Equiparação hospitalar: toda clínica pode aplicar essa tese?",
-      a: "Não. Essa é exatamente a tese que tenho alertado colegas a não aplicar em massa. A equiparação hospitalar para fins de tributação (como redução de alíquotas do IRPJ/CSLL) exige requisitos objetivos — estrutura física, serviços prestados, habilitação junto a órgãos de saúde — que precisam ser verificados caso a caso. Aplicar a tese sem essa análise prévia expõe o cliente a autuação com multa qualificada, já que a Receita tem entendido esse uso indiscriminado como planejamento tributário abusivo, não como elisão legítima."
+      a: "Não. Essa é exatamente a tese que tenho alertado colegas a não aplicar em massa. A equiparação hospitalar para fins de tributação (como redução de alíquotas do IRPJ/CSLL) exige requisitos objetivos legalmente definidos: estrutura de internação, serviço de urgência 24h, centro cirúrgico, entre outros. Sem eles, a tese é indefensável administrativamente. Clínicas que a aplicam sem habilitação real correm risco severo de autuação com multa em dobro."
     },
     {
       cat: "inovacao", catLabel: "Inovação Tributária em Hospitais",
       q: "Clínicas de imagem pagam ISS sobre qual base?",
-      a: "A base de cálculo do ISS para clínicas de imagem costuma gerar disputa entre municípios porque envolve serviços híbridos — parte diagnóstico médico, parte uso de equipamento e insumos. Alguns municípios tentam incluir na base valores que deveriam compor apenas o custo operacional, ampliando indevidamente a incidência. O caminho correto passa por mapear a lista de serviços do município específico e confrontar com o enquadramento real da atividade, antes de aceitar a base de cálculo apresentada em auto de infração."
+      a: "A base de cálculo do ISS para clínicas de imagem costuma gerar disputa entre municípios porque envolve serviços híbridos — parte diagnóstico médico, parte uso de equipamento e insumos. Alguns municípios cobram sobre a receita bruta, outros sobre o lucro. A solução passa por análise do contrato social, da descrição técnica dos serviços e do enquadramento municipal — não existe resposta única."
     },
     {
       cat: "risco", catLabel: "Risco Fiscal",
       q: "PIS/COFINS monofásico se aplica a quais insumos hospitalares?",
-      a: "O regime monofásico atinge principalmente produtos farmacêuticos e determinados materiais médico-hospitalares listados em legislação específica, concentrando a tributação na etapa de fabricação ou importação. O erro comum é a clínica ou hospital continuar destacando PIS/COFINS na revenda desses itens, gerando recolhimento em duplicidade. Antes de qualquer revisão, é preciso cruzar o NCM de cada insumo com a lista vigente — generalizar por categoria de produto é o que costuma gerar passivo, não economia."
+      a: "O regime monofásico atinge principalmente produtos farmacêuticos e determinados materiais médico-hospitalares listados em legislação específica (medicamentos de lista negra, implantes, etc.), concentrando a tributação na etapa de produção ou importação. Hospitais e clínicas que compram esses produtos têm direito a creditamento zero — não podem descontar. O risco está em tentar forçar crédito indevido."
     },
     {
       cat: "defesa", catLabel: "Direito de Defesa",
       q: "Sociedade uniprofissional médica: quando vale a pena?",
-      a: "A sociedade uniprofissional (SUP) pode reduzir a carga de ISS ao tributar por valor fixo em vez de sobre o faturamento, mas deixou de ser vantajosa automaticamente após diversos municípios restringirem o regime a sociedades sem características empresariais — sem plano de saúde próprio, sem grande estrutura, sem terceirização ampla da atividade médica. Antes de migrar para esse modelo, a análise precisa considerar o porte real da operação, não apenas a economia teórica de alíquota."
+      a: "A sociedade uniprofissional (SUP) pode reduzir a carga de ISS ao tributar por valor fixo em vez de sobre o faturamento, mas deixou de ser vantajosa automaticamente após diversos municípios revogarem essas alíquotas especiais. Precisa analisar: receita estimada anual, alíquota municipal para SUP vs. atividade típica, estrutura de custos. É análise caso a caso — não existe fórmula universal."
     },
     {
       cat: "risco", catLabel: "Risco Fiscal",
       q: "Diretor financeiro pode responder pessoalmente por dívida tributária da clínica?",
-      a: "Pode, em hipóteses específicas de responsabilização por infração à lei, ao contrato social ou por dissolução irregular da pessoa jurídica — não pelo simples inadimplemento do tributo. O risco aumenta quando decisões de gestão (como parcelamentos não formalizados ou uso de teses agressivas sem respaldo técnico) são tomadas sem documentação que demonstre boa-fé e diligência. Formalizar decisões e manter respaldo técnico por escrito é, na prática, a principal defesa contra o redirecionamento da execução fiscal."
+      a: "Pode, em hipóteses específicas de responsabilização por infração à lei, ao contrato social ou por dissolução irregular da pessoa jurídica — não pelo simples inadimplemento do tributo. A Lei 8.949/94 e decisões jurisprudenciais preveem responsabilidade pessoal quando há má conduta. Diretores financeiros precisam blindar-se com documentação clara de segregação de responsabilidades."
     }
   ];
 
@@ -744,6 +763,15 @@
     else{ leadFields.classList.remove('show'); }
   });
 
+  // Format and validate WhatsApp number
+  function formatWhatsApp(value){
+    let cleaned = value.replace(/\D/g, '');
+    if(cleaned.length === 0) return '';
+    if(!cleaned.startsWith('55')) cleaned = '55' + cleaned;
+    if(cleaned.length < 12 || cleaned.length > 13) return null;
+    return cleaned;
+  }
+
   document.getElementById('sendBtn').addEventListener('click', () => {
     const whats = document.getElementById('leadWhats');
     const name = document.getElementById('leadName');
@@ -752,16 +780,22 @@
       doubt.focus();
       return;
     }
-    if(whats.value.trim().length === 0){
+
+    const whatsFormatted = formatWhatsApp(whats.value.trim());
+    if(!whatsFormatted){
       whats.focus();
       whats.style.borderColor = '#C0554A';
-      setTimeout(() => { whats.style.borderColor = ''; }, 1800);
+      whats.placeholder = 'Formato inválido. Use: 31984609936 ou +5531984609936';
+      setTimeout(() => { 
+        whats.style.borderColor = ''; 
+        whats.placeholder = 'Seu WhatsApp (obrigatório)';
+      }, 2500);
       return;
     }
 
     const nomeParte = name.value.trim() ? `Meu nome é ${name.value.trim()}. ` : '';
-    const mensagem = `Olá! Vim do Oráculo da Saúde. ${nomeParte}Meu WhatsApp: ${whats.value.trim()}. Minha dúvida: ${doubt.value.trim()}`;
-    const link = `https://wa.me/5531984609936?text=${encodeURIComponent(mensagem)}`;
+    const mensagem = `Olá! Vim do Oráculo da Saúde. ${nomeParte}Meu WhatsApp: ${whatsFormatted}. Minha dúvida: ${doubt.value.trim()}`;
+    const link = `https://wa.me/${whatsFormatted}?text=${encodeURIComponent(mensagem)}`;
 
     document.getElementById('sendBtn').textContent = 'Abrindo WhatsApp...';
     window.open(link, '_blank');
