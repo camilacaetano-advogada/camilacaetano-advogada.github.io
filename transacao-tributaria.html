@@ -37,26 +37,80 @@
   html { scroll-behavior: smooth; }
   body { font-family: 'Montserrat', sans-serif; background-color: #5C1A2B; }
   .font-serif { font-family: 'Cormorant Garamond', serif; }
-  .divider-gold {
-    width: 64px; height: 1px; background: #C9A96E; margin: 0 auto;
+
+  /* ===== SCROLL PROGRESS ===== */
+  #scrollProgress {
+    position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+    background: linear-gradient(90deg, #C9A96E, #DEC79A);
+    z-index: 1100; transition: width .1s linear;
   }
+
+  /* ===== NAV LINKS ===== */
+  .nav-link { position: relative; padding-bottom: 4px; }
+  .nav-link::after {
+    content: ""; position: absolute; left: 0; bottom: 0; width: 0; height: 1px;
+    background: #C9A96E; transition: width .3s ease;
+  }
+  .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+  .nav-link.active { color: #DEC79A; }
+
+  #mobileMenu { max-height: 0; overflow: hidden; transition: max-height .4s ease; }
+  #mobileMenu.open { max-height: 360px; }
+
+  /* ===== REVEAL ON SCROLL ===== */
+  [data-reveal] { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+  [data-reveal].revealed { opacity: 1; transform: translateY(0); }
+  [data-reveal-delay="1"] { transition-delay: .1s; }
+  [data-reveal-delay="2"] { transition-delay: .2s; }
+  [data-reveal-delay="3"] { transition-delay: .3s; }
+
+  .divider-gold { width: 64px; height: 1px; background: #C9A96E; margin: 0 auto; }
+
   .card-hover { transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease; }
   .card-hover:hover { transform: translateY(-6px); box-shadow: 0 22px 44px -22px rgba(44,44,42,0.35); }
+
   .btn-gold {
     background: #C9A96E; color: #2C2C2A; font-weight: 700; letter-spacing: .05em;
     transition: background .3s ease, box-shadow .3s ease, transform .3s ease;
   }
   .btn-gold:hover { background: #DEC79A; box-shadow: 0 14px 34px -10px rgba(201,169,110,.55); transform: translateY(-2px); }
-  .btn-outline-gold {
-    border: 1px solid #C9A96E; color: #F5EFE6; transition: all .3s ease;
-  }
+  .btn-gold:active { transform: translateY(0) scale(.98); }
+  .btn-gold:disabled { opacity: .55; cursor: not-allowed; transform: none; box-shadow: none; }
+
+  .btn-outline-gold { border: 1px solid #C9A96E; color: #F5EFE6; transition: all .3s ease; }
   .btn-outline-gold:hover { background: #C9A96E; color: #2C2C2A; }
+
   .num-badge {
     width: 46px; height: 46px; border: 1px solid #C9A96E; border-radius: 9999px;
     display: flex; align-items: center; justify-content: center;
     font-family: 'Cormorant Garamond', serif; font-style: italic; color: #C9A96E; font-size: 20px;
     flex-shrink: 0;
   }
+
+  /* ===== ACCORDION PILLARS ===== */
+  .pillar-card { cursor: pointer; transition: border-color .3s ease, background-color .3s ease; }
+  .pillar-card .chevron { transition: transform .35s ease; }
+  .pillar-card.open .chevron { transform: rotate(180deg); }
+  .pillar-detail {
+    max-height: 0; overflow: hidden; opacity: 0;
+    transition: max-height .45s ease, opacity .35s ease, margin-top .45s ease;
+  }
+  .pillar-card.open .pillar-detail { max-height: 220px; opacity: 1; margin-top: 12px; }
+
+  /* ===== STAT COUNTERS ===== */
+  .stat-num { font-family: 'Cormorant Garamond', serif; font-style: italic; }
+
+  /* ===== FORM ===== */
+  select.form-field, textarea.form-field {
+    width: 100%; background: rgba(255,255,255,0.9); border: 1px solid rgba(92,26,43,0.15);
+    border-radius: 4px; padding: 14px 16px; font-size: 13.5px; color: #2C2C2A; outline: none;
+    transition: border-color .3s ease, box-shadow .3s ease;
+  }
+  select.form-field:focus, textarea.form-field:focus { border-color: #C9A96E; box-shadow: 0 0 0 3px rgba(201,169,110,.2); }
+  textarea.form-field { resize: vertical; min-height: 96px; }
+  .field-label { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #5C1A2B; margin-bottom: 8px; display: block; }
+
+  /* ===== WHATSAPP FLOAT ===== */
   .whats-float {
     position: fixed; bottom: max(24px, env(safe-area-inset-bottom)); right: max(24px, env(safe-area-inset-right));
     z-index: 1000; width: 58px; height: 58px; border-radius: 9999px;
@@ -74,9 +128,29 @@
     content: ""; position: absolute; inset: -6px; border-radius: 9999px;
     border: 1px solid rgba(201,169,110,.6); animation: pulseRing 2.4s ease-out infinite;
   }
+
+  /* ===== BACK TO TOP ===== */
+  #backToTop {
+    position: fixed; bottom: max(24px, env(safe-area-inset-bottom)); left: max(24px, env(safe-area-inset-left));
+    z-index: 1000; width: 46px; height: 46px; border-radius: 9999px;
+    background: rgba(44,44,42,0.55); border: 1px solid rgba(201,169,110,.5);
+    display: flex; align-items: center; justify-content: center;
+    color: #DEC79A; opacity: 0; pointer-events: none; transform: translateY(10px);
+    transition: opacity .3s ease, transform .3s ease, background .3s ease;
+  }
+  #backToTop.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  #backToTop:hover { background: rgba(44,44,42,0.8); }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    [data-reveal] { opacity: 1; transform: none; transition: none; }
+    * { animation-duration: 0.01ms !important; }
+  }
 </style>
 </head>
 <body class="bg-vinho text-creme antialiased">
+
+<div id="scrollProgress"></div>
 
 <!-- NAV -->
 <nav class="fixed top-0 left-0 right-0 z-50 bg-vinho/95 backdrop-blur border-b border-dourado/20">
@@ -88,39 +162,77 @@
         <div class="text-[10px] uppercase tracking-[0.2em] text-dourado-claro/80">Advocacia e Consultoria Jurídica</div>
       </div>
     </div>
-    <a href="#contato" class="hidden sm:inline-block btn-gold text-xs uppercase tracking-wider px-5 py-3 rounded-sm">
-      Análise de Viabilidade
-    </a>
+
+    <div class="hidden md:flex items-center gap-8 text-xs uppercase tracking-wider text-creme/80">
+      <a href="#riscos" class="nav-link" data-nav>Riscos</a>
+      <a href="#instrumento" class="nav-link" data-nav>Instrumento Legal</a>
+      <a href="#metodologia" class="nav-link" data-nav>Metodologia</a>
+      <a href="#sobre" class="nav-link" data-nav>Sobre</a>
+      <a href="#contato" class="btn-gold text-xs uppercase tracking-wider px-5 py-3 rounded-sm">Análise de Viabilidade</a>
+    </div>
+
+    <button id="menuToggle" class="md:hidden text-dourado-claro" aria-label="Abrir menu" aria-expanded="false">
+      <svg id="iconOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-7 h-7"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      <svg id="iconClose" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-7 h-7 hidden"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+
+  <div id="mobileMenu" class="md:hidden px-6">
+    <div class="flex flex-col gap-1 pb-5 text-sm uppercase tracking-wider text-creme/85">
+      <a href="#riscos" class="py-3 border-b border-dourado/10" data-nav>Riscos</a>
+      <a href="#instrumento" class="py-3 border-b border-dourado/10" data-nav>Instrumento Legal</a>
+      <a href="#metodologia" class="py-3 border-b border-dourado/10" data-nav>Metodologia</a>
+      <a href="#sobre" class="py-3 border-b border-dourado/10" data-nav>Sobre</a>
+      <a href="#contato" class="mt-4 btn-gold text-center text-xs px-5 py-3 rounded-sm">Análise de Viabilidade</a>
+    </div>
   </div>
 </nav>
 
 <!-- HERO -->
-<section id="hero" class="relative pt-40 pb-24 px-6 overflow-hidden">
+<section id="hero" class="relative pt-40 pb-20 px-6 overflow-hidden">
   <div class="absolute inset-0 pointer-events-none opacity-[0.06]">
     <div class="absolute -top-24 -right-24 w-[520px] h-[520px] rounded-full border border-dourado"></div>
     <div class="absolute bottom-0 -left-32 w-[420px] h-[420px] rounded-full border border-dourado"></div>
   </div>
 
   <div class="relative max-w-4xl mx-auto text-center">
-    <p class="text-xs uppercase tracking-[0.3em] text-dourado-claro mb-6">Transação Tributária · Lei 13.988</p>
-    <h1 class="font-serif italic text-[32px] sm:text-[44px] md:text-[52px] leading-[1.2] text-white mb-6">
+    <p class="text-xs uppercase tracking-[0.3em] text-dourado-claro mb-6" data-reveal>Transação Tributária · Lei 13.988</p>
+    <h1 class="font-serif italic text-[32px] sm:text-[44px] md:text-[52px] leading-[1.2] text-white mb-6" data-reveal data-reveal-delay="1">
       Repactue o Passivo Fiscal da sua Empresa com Segurança Jurídica e Proteção do Fluxo de Caixa
     </h1>
-    <p class="text-creme/85 text-[15px] sm:text-base leading-relaxed max-w-2xl mx-auto mb-10">
+    <p class="text-creme/85 text-[15px] sm:text-base leading-relaxed max-w-2xl mx-auto mb-10" data-reveal data-reveal-delay="2">
       A Transação Tributária (Lei 13.988) permite regularizar débitos inscritos na Dívida Ativa da União com descontos legais de até 70% sobre juros e multas e parcelamento adequado à Capacidade de Pagamento do seu negócio.
     </p>
-    <a href="#contato" id="ctaHero" class="btn-gold inline-block text-sm uppercase tracking-wider px-9 py-4 rounded-sm">
-      Solicitar Análise de Viabilidade Fiscal
-    </a>
-    <p class="mt-6 text-[11px] uppercase tracking-[0.15em] text-dourado-claro/70">
-      Análise Técnica Individualizada &middot; Alinhada ao Provimento 205/2021 da OAB
-    </p>
+    <div data-reveal data-reveal-delay="3">
+      <a href="#" id="ctaHero" class="btn-gold inline-block text-sm uppercase tracking-wider px-9 py-4 rounded-sm">
+        Solicitar Análise de Viabilidade Fiscal
+      </a>
+      <p class="mt-6 text-[11px] uppercase tracking-[0.15em] text-dourado-claro/70">
+        Análise Técnica Individualizada &middot; Alinhada ao Provimento 205/2021 da OAB
+      </p>
+    </div>
+  </div>
+
+  <!-- STAT STRIP -->
+  <div class="relative max-w-3xl mx-auto mt-16 grid grid-cols-3 gap-4 sm:gap-8 text-center" id="statStrip">
+    <div data-reveal>
+      <div class="stat-num text-3xl sm:text-4xl text-dourado-claro"><span id="statDiscount">0</span>%</div>
+      <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-creme/65 mt-2 leading-snug">Desconto legal máximo em juros e multas</div>
+    </div>
+    <div data-reveal data-reveal-delay="1">
+      <div class="stat-num text-3xl sm:text-4xl text-dourado-claro">CAPAG</div>
+      <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-creme/65 mt-2 leading-snug">Parcelamento por capacidade de pagamento</div>
+    </div>
+    <div data-reveal data-reveal-delay="2">
+      <div class="stat-num text-3xl sm:text-4xl text-dourado-claro">CPEN</div>
+      <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-creme/65 mt-2 leading-snug">Certidão que mantém contratos e crédito ativos</div>
+    </div>
   </div>
 </section>
 
 <!-- SEÇÃO 2: RISCO DA INÉRCIA -->
 <section id="riscos" class="bg-creme text-carvao px-6 py-24">
-  <div class="max-w-5xl mx-auto text-center mb-16">
+  <div class="max-w-5xl mx-auto text-center mb-16" data-reveal>
     <p class="text-xs uppercase tracking-[0.3em] text-vinho mb-4">A Realidade Fiscal das Empresas</p>
     <h2 class="font-serif text-[28px] sm:text-[36px] leading-tight max-w-3xl mx-auto">
       Por que postergar pendências fiscais é a estratégia mais custosa contra o seu caixa?
@@ -128,17 +240,17 @@
   </div>
 
   <div class="max-w-5xl mx-auto grid gap-6 sm:grid-cols-3">
-    <div class="card-hover bg-white border border-vinho/10 rounded-sm p-8">
+    <div class="card-hover bg-white border border-vinho/10 rounded-sm p-8" data-reveal>
       <div class="font-serif italic text-vinho text-2xl mb-4">01</div>
       <h3 class="font-semibold text-[15px] mb-3">Cruzamento por Inteligência Artificial</h3>
       <p class="text-sm text-carvao/75 leading-relaxed">O Fisco cruza faturamento, notas fiscais e movimentações bancárias em tempo real, gerando autuações automáticas.</p>
     </div>
-    <div class="card-hover bg-white border border-vinho/10 rounded-sm p-8">
+    <div class="card-hover bg-white border border-vinho/10 rounded-sm p-8" data-reveal data-reveal-delay="1">
       <div class="font-serif italic text-vinho text-2xl mb-4">02</div>
       <h3 class="font-semibold text-[15px] mb-3">Risco de Redirecionamento ao CPF</h3>
       <p class="text-sm text-carvao/75 leading-relaxed">A inércia na gestão do passivo transfere o débito corrigido por juros para o patrimônio pessoal dos sócios e administradores.</p>
     </div>
-    <div class="card-hover bg-white border border-vinho/10 rounded-sm p-8">
+    <div class="card-hover bg-white border border-vinho/10 rounded-sm p-8" data-reveal data-reveal-delay="2">
       <div class="font-serif italic text-vinho text-2xl mb-4">03</div>
       <h3 class="font-semibold text-[15px] mb-3">Bloqueio de Liquidez e Operação</h3>
       <p class="text-sm text-carvao/75 leading-relaxed">Execuções fiscais repentinas travam contas bancárias (SISBAJUD), prejudicam a margem de lucro e impedem a emissão de certidões.</p>
@@ -146,61 +258,89 @@
   </div>
 </section>
 
-<!-- SEÇÃO 3: O INSTRUMENTO LEGAL -->
+<!-- SEÇÃO 3: O INSTRUMENTO LEGAL (ACCORDION) -->
 <section id="instrumento" class="bg-vinho px-6 py-24">
-  <div class="max-w-5xl mx-auto text-center mb-16">
+  <div class="max-w-5xl mx-auto text-center mb-16" data-reveal>
     <p class="text-xs uppercase tracking-[0.3em] text-dourado-claro mb-4">O Instrumento Legal</p>
     <h2 class="font-serif italic text-[28px] sm:text-[36px] text-white leading-tight max-w-3xl mx-auto">
       Como a Transação Tributária protege o fluxo de caixa do seu CNPJ
     </h2>
+    <p class="text-xs text-creme/50 mt-4 uppercase tracking-widest">Toque em cada pilar para ver o detalhamento técnico</p>
   </div>
 
-  <div class="max-w-4xl mx-auto grid gap-8 sm:grid-cols-2">
-    <div class="border-l border-dourado/40 pl-6">
-      <h3 class="font-serif text-xl text-dourado-claro mb-2">Redução Legítima de Multas e Juros</h3>
-      <p class="text-sm text-creme/80 leading-relaxed">Descontos aplicados conforme o grau de recuperabilidade da empresa apurado pela PGFN (CAPAG).</p>
+  <div class="max-w-4xl mx-auto grid gap-5 sm:grid-cols-2">
+    <div class="pillar-card border border-dourado/30 rounded-sm p-6 hover:border-dourado/70" data-pillar>
+      <div class="flex items-start justify-between gap-4">
+        <h3 class="font-serif text-xl text-dourado-claro">Redução Legítima de Multas e Juros</h3>
+        <svg class="chevron w-4 h-4 mt-2 text-dourado shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <p class="text-sm text-creme/80 leading-relaxed mt-2">Descontos aplicados conforme o grau de recuperabilidade da empresa apurado pela PGFN (CAPAG).</p>
+      <div class="pillar-detail text-sm text-creme/65 leading-relaxed">
+        A classificação CAPAG (A, B, C ou D) mede a probabilidade de recuperação do crédito pela Fazenda Pública. Empresas com classificação de menor recuperabilidade acessam percentuais de desconto mais expressivos sobre os encargos acessórios — nunca sobre o tributo principal.
+      </div>
     </div>
-    <div class="border-l border-dourado/40 pl-6">
-      <h3 class="font-serif text-xl text-dourado-claro mb-2">Parcelamento Alongado</h3>
-      <p class="text-sm text-creme/80 leading-relaxed">Adequação das parcelas à capacidade operacional da empresa, evitando o estrangulamento financeiro.</p>
+
+    <div class="pillar-card border border-dourado/30 rounded-sm p-6 hover:border-dourado/70" data-pillar>
+      <div class="flex items-start justify-between gap-4">
+        <h3 class="font-serif text-xl text-dourado-claro">Parcelamento Alongado</h3>
+        <svg class="chevron w-4 h-4 mt-2 text-dourado shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <p class="text-sm text-creme/80 leading-relaxed mt-2">Adequação das parcelas à capacidade operacional da empresa, evitando o estrangulamento financeiro.</p>
+      <div class="pillar-detail text-sm text-creme/65 leading-relaxed">
+        O prazo de quitação é modulado conforme a modalidade de transação (individual, por adesão ou excepcional), permitindo alinhar o desembolso mensal ao ciclo de caixa real do negócio, sem comprometer capital de giro.
+      </div>
     </div>
-    <div class="border-l border-dourado/40 pl-6">
-      <h3 class="font-serif text-xl text-dourado-claro mb-2">Liberação de Certidões (CPEN)</h3>
-      <p class="text-sm text-creme/80 leading-relaxed">Emissão da Certidão Positiva com Efeito de Negativa para manter contratos, licitações e linhas de crédito.</p>
+
+    <div class="pillar-card border border-dourado/30 rounded-sm p-6 hover:border-dourado/70" data-pillar>
+      <div class="flex items-start justify-between gap-4">
+        <h3 class="font-serif text-xl text-dourado-claro">Liberação de Certidões (CPEN)</h3>
+        <svg class="chevron w-4 h-4 mt-2 text-dourado shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <p class="text-sm text-creme/80 leading-relaxed mt-2">Emissão da Certidão Positiva com Efeito de Negativa para manter contratos, licitações e linhas de crédito.</p>
+      <div class="pillar-detail text-sm text-creme/65 leading-relaxed">
+        Com a adesão formalizada, a empresa regulariza sua situação fiscal para fins de participação em licitações, obtenção de financiamento bancário e manutenção de contratos que exigem regularidade perante a Dívida Ativa da União.
+      </div>
     </div>
-    <div class="border-l border-dourado/40 pl-6">
-      <h3 class="font-serif text-xl text-dourado-claro mb-2">Paralisação de Atos Expropriatórios</h3>
-      <p class="text-sm text-creme/80 leading-relaxed">Suspensão de execuções fiscais e penhoras online mediante enquadramento legal legítimo.</p>
+
+    <div class="pillar-card border border-dourado/30 rounded-sm p-6 hover:border-dourado/70" data-pillar>
+      <div class="flex items-start justify-between gap-4">
+        <h3 class="font-serif text-xl text-dourado-claro">Paralisação de Atos Expropriatórios</h3>
+        <svg class="chevron w-4 h-4 mt-2 text-dourado shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <p class="text-sm text-creme/80 leading-relaxed mt-2">Suspensão de execuções fiscais e penhoras online mediante enquadramento legal legítimo.</p>
+      <div class="pillar-detail text-sm text-creme/65 leading-relaxed">
+        A formalização da transação suspende a exigibilidade do crédito tributário, paralisando novos bloqueios via SISBAJUD e demais medidas constritivas enquanto o acordo estiver em cumprimento regular.
+      </div>
     </div>
   </div>
 </section>
 
 <!-- SEÇÃO 4: METODOLOGIA -->
 <section id="metodologia" class="bg-creme text-carvao px-6 py-24">
-  <div class="max-w-3xl mx-auto text-center mb-6">
+  <div class="max-w-3xl mx-auto text-center mb-6" data-reveal>
     <p class="text-xs uppercase tracking-[0.3em] text-vinho mb-4">Metodologia e Gestão de Riscos</p>
     <h2 class="font-serif text-[28px] sm:text-[36px] leading-tight">Nossa Abordagem: Auditoria Antes do Protocolo</h2>
   </div>
-  <p class="max-w-2xl mx-auto text-center text-sm text-carvao/75 leading-relaxed mb-16">
+  <p class="max-w-2xl mx-auto text-center text-sm text-carvao/75 leading-relaxed mb-16" data-reveal data-reveal-delay="1">
     Soluções genéricas e promessas automáticas geram passivos ainda maiores. Aplicamos uma matriz de Gestão de Riscos e precisão contábil para auditar o cenário exato do seu CNPJ antes de qualquer negociação formal.
   </p>
 
   <div class="max-w-3xl mx-auto space-y-8">
-    <div class="flex gap-6 items-start">
+    <div class="flex gap-6 items-start" data-reveal>
       <div class="num-badge border-vinho text-vinho">1</div>
       <div>
         <h3 class="font-semibold text-[15px] mb-1">Triagem de Dados &amp; Avaliação da Capacidade de Pagamento (CAPAG)</h3>
         <p class="text-sm text-carvao/70 leading-relaxed">Levantamento completo dos débitos inscritos e apuração do enquadramento na classificação de recuperabilidade da PGFN.</p>
       </div>
     </div>
-    <div class="flex gap-6 items-start">
+    <div class="flex gap-6 items-start" data-reveal data-reveal-delay="1">
       <div class="num-badge border-vinho text-vinho">2</div>
       <div>
         <h3 class="font-semibold text-[15px] mb-1">Mapeamento de Oportunidades &amp; Enquadramento na Lei 13.988</h3>
         <p class="text-sm text-carvao/70 leading-relaxed">Identificação das modalidades de transação aplicáveis ao perfil e ao setor da empresa.</p>
       </div>
     </div>
-    <div class="flex gap-6 items-start">
+    <div class="flex gap-6 items-start" data-reveal data-reveal-delay="2">
       <div class="num-badge border-vinho text-vinho">3</div>
       <div>
         <h3 class="font-semibold text-[15px] mb-1">Protocolo Estratégico &amp; Acompanhamento de Conformidade</h3>
@@ -212,7 +352,7 @@
 
 <!-- SEÇÃO 5: SOBRE -->
 <section id="sobre" class="bg-vinho px-6 py-24">
-  <div class="max-w-4xl mx-auto grid gap-12 sm:grid-cols-[auto,1fr] items-start">
+  <div class="max-w-4xl mx-auto grid gap-12 sm:grid-cols-[auto,1fr] items-start" data-reveal>
     <div class="w-20 h-20 rounded-full border border-dourado flex items-center justify-center font-serif italic text-dourado-claro text-2xl mx-auto sm:mx-0">CA</div>
     <div>
       <p class="text-xs uppercase tracking-[0.3em] text-dourado-claro mb-4 text-center sm:text-left">Sobre a Consultoria</p>
@@ -227,22 +367,57 @@
   </div>
 </section>
 
-<!-- CONTATO / CTA FINAL -->
+<!-- CONTATO / SIMULADOR DE CONTEXTO -->
 <section id="contato" class="bg-creme text-carvao px-6 py-24">
-  <div class="max-w-2xl mx-auto text-center">
+  <div class="max-w-2xl mx-auto text-center mb-12" data-reveal>
     <p class="text-xs uppercase tracking-[0.3em] text-vinho mb-4">Próximo Passo</p>
     <h2 class="font-serif text-[26px] sm:text-[32px] leading-tight mb-5">
       Solicite a Análise de Viabilidade Fiscal do seu CNPJ
     </h2>
-    <p class="text-sm text-carvao/75 leading-relaxed mb-10">
-      O primeiro passo é uma avaliação técnica individualizada do cenário da sua empresa junto à PGFN/Receita Federal. Fale diretamente pelo WhatsApp com a equipe de Camila Arcanjo Advocacia.
+    <p class="text-sm text-carvao/75 leading-relaxed">
+      Contextualize brevemente o cenário da sua empresa. As informações abaixo são usadas apenas para direcionar o primeiro contato — a avaliação completa é sempre feita de forma técnica e individualizada.
     </p>
-    <a href="#" id="ctaFinal" class="btn-gold inline-flex items-center gap-3 text-sm uppercase tracking-wider px-9 py-4 rounded-sm">
+  </div>
+
+  <div class="max-w-xl mx-auto bg-white border border-vinho/10 rounded-sm p-8 sm:p-10" data-reveal data-reveal-delay="1">
+    <div class="grid gap-5 sm:grid-cols-2">
+      <div>
+        <label class="field-label" for="setor">Setor da empresa</label>
+        <select id="setor" class="form-field">
+          <option value="">Selecione...</option>
+          <option>Comércio</option>
+          <option>Indústria</option>
+          <option>Serviços</option>
+          <option>Logística</option>
+          <option>Saúde / Clínicas</option>
+          <option>Outro</option>
+        </select>
+      </div>
+      <div>
+        <label class="field-label" for="faixa">Faixa estimada do passivo</label>
+        <select id="faixa" class="form-field">
+          <option value="">Selecione...</option>
+          <option>Até R$ 500 mil</option>
+          <option>R$ 500 mil a R$ 2 milhões</option>
+          <option>R$ 2 milhões a R$ 10 milhões</option>
+          <option>Acima de R$ 10 milhões</option>
+          <option>Ainda não sei informar</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="mt-5">
+      <label class="field-label" for="detalhe">Contexto adicional (opcional)</label>
+      <textarea id="detalhe" class="form-field" placeholder="Ex.: débitos de IRPJ/CSLL em cobrança, execução fiscal em andamento, dúvida sobre CAPAG..."></textarea>
+    </div>
+
+    <button id="sendBtn" type="button" disabled class="btn-gold w-full mt-7 inline-flex items-center justify-center gap-3 text-sm uppercase tracking-wider px-9 py-4 rounded-sm">
       <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5" aria-hidden="true">
         <path d="M17.6 6.32A8.86 8.86 0 0 0 12.02 3.5 8.94 8.94 0 0 0 3.1 12.42a8.9 8.9 0 0 0 1.32 4.7L3.5 21l3.98-1.04a8.9 8.9 0 0 0 4.53 1.24h.01a8.94 8.94 0 0 0 8.92-8.92 8.9 8.9 0 0 0-3.34-6.96Z"/>
       </svg>
-      Solicitar Análise de Viabilidade Fiscal
-    </a>
+      Enviar para Análise via WhatsApp
+    </button>
+    <p class="text-[11px] text-carvao/50 text-center mt-4">Selecione o setor e a faixa estimada para liberar o envio.</p>
   </div>
 </section>
 
@@ -266,18 +441,59 @@
   </svg>
 </a>
 
+<!-- BACK TO TOP -->
+<button id="backToTop" aria-label="Voltar ao topo">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
 
   const WHATS_NUMBER = '5531984609936';
-  const WHATS_MESSAGE = 'Olá! Sou empresário(a)/gestor(a) e gostaria de solicitar uma Análise de Viabilidade Fiscal sobre a Transação Tributária (Lei 13.988) para os débitos da minha empresa junto à PGFN/Receita Federal.';
-  const whatsLink = `https://wa.me/${WHATS_NUMBER}?text=${encodeURIComponent(WHATS_MESSAGE)}`;
+  const BASE_MESSAGE = 'Olá! Sou empresário(a)/gestor(a) e gostaria de solicitar uma Análise de Viabilidade Fiscal sobre a Transação Tributária (Lei 13.988) para os débitos da minha empresa junto à PGFN/Receita Federal.';
 
-  ['ctaHero', 'ctaFinal', 'whatsFloat'].forEach(id => {
+  function buildWhatsLink(message) {
+    return `https://wa.me/${WHATS_NUMBER}?text=${encodeURIComponent(message)}`;
+  }
+
+  const baseLink = buildWhatsLink(BASE_MESSAGE);
+  ['ctaHero', 'whatsFloat'].forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.setAttribute('href', whatsLink);
+    if (el) el.setAttribute('href', baseLink);
   });
 
+  // ===== SCROLL PROGRESS =====
+  const progressBar = document.getElementById('scrollProgress');
+  function updateProgress() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progressBar.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+
+  // ===== MOBILE MENU =====
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const iconOpen = document.getElementById('iconOpen');
+  const iconClose = document.getElementById('iconClose');
+  menuToggle.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    menuToggle.setAttribute('aria-expanded', String(isOpen));
+    iconOpen.classList.toggle('hidden', isOpen);
+    iconClose.classList.toggle('hidden', !isOpen);
+  });
+  document.querySelectorAll('#mobileMenu a').forEach(a => {
+    a.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      iconOpen.classList.remove('hidden');
+      iconClose.classList.add('hidden');
+    });
+  });
+
+  // ===== SMOOTH SCROLL =====
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
@@ -290,6 +506,104 @@
       }
     });
   });
+
+  // ===== ACTIVE NAV LINK ON SCROLL =====
+  const navLinks = document.querySelectorAll('[data-nav]');
+  const sections = ['riscos', 'instrumento', 'metodologia', 'sobre'].map(id => document.getElementById(id));
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+        });
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+  sections.forEach(sec => sec && navObserver.observe(sec));
+
+  // ===== REVEAL ON SCROLL =====
+  const revealEls = document.querySelectorAll('[data-reveal]');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => revealObserver.observe(el));
+
+  // ===== ANIMATED COUNTER (70%) =====
+  let counted = false;
+  const statEl = document.getElementById('statDiscount');
+  const statObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !counted) {
+        counted = true;
+        let current = 0;
+        const target = 70;
+        const duration = 1200;
+        const start = performance.now();
+        function tick(now) {
+          const progress = Math.min((now - start) / duration, 1);
+          current = Math.round(progress * target);
+          statEl.textContent = current;
+          if (progress < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        statObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  const statStrip = document.getElementById('statStrip');
+  if (statStrip) statObserver.observe(statStrip);
+
+  // ===== ACCORDION PILLARS =====
+  document.querySelectorAll('[data-pillar]').forEach(card => {
+    card.addEventListener('click', () => {
+      const wasOpen = card.classList.contains('open');
+      document.querySelectorAll('[data-pillar]').forEach(c => c.classList.remove('open'));
+      if (!wasOpen) card.classList.add('open');
+    });
+  });
+
+  // ===== CONTEXT FORM -> DYNAMIC WHATSAPP MESSAGE =====
+  const setorEl = document.getElementById('setor');
+  const faixaEl = document.getElementById('faixa');
+  const detalheEl = document.getElementById('detalhe');
+  const sendBtn = document.getElementById('sendBtn');
+
+  function refreshSendState() {
+    sendBtn.disabled = !(setorEl.value && faixaEl.value);
+  }
+  setorEl.addEventListener('change', refreshSendState);
+  faixaEl.addEventListener('change', refreshSendState);
+
+  sendBtn.addEventListener('click', () => {
+    if (sendBtn.disabled) return;
+    let message = BASE_MESSAGE;
+    message += ` Setor: ${setorEl.value}.`;
+    message += ` Faixa estimada do passivo: ${faixaEl.value}.`;
+    if (detalheEl.value.trim()) {
+      message += ` Contexto adicional: ${detalheEl.value.trim()}`;
+    }
+    sendBtn.textContent = 'Abrindo WhatsApp...';
+    window.open(buildWhatsLink(message), '_blank');
+    setTimeout(() => {
+      sendBtn.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5" aria-hidden="true">
+          <path d="M17.6 6.32A8.86 8.86 0 0 0 12.02 3.5 8.94 8.94 0 0 0 3.1 12.42a8.9 8.9 0 0 0 1.32 4.7L3.5 21l3.98-1.04a8.9 8.9 0 0 0 4.53 1.24h.01a8.94 8.94 0 0 0 8.92-8.92 8.9 8.9 0 0 0-3.34-6.96Z"/>
+        </svg>
+        Enviar para Análise via WhatsApp`;
+    }, 2400);
+  });
+
+  // ===== BACK TO TOP =====
+  const backToTop = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    backToTop.classList.toggle('show', window.scrollY > 600);
+  }, { passive: true });
+  backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 </script>
 
 </body>
