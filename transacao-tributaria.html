@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transação Tributária Empresarial (Lei 13.988) | Camila Arcanjo Advocacia</title>
+<meta name="description" content="Repactuação de passivos tributários de empresas junto à PGFN/Receita Federal com base na Lei 13.988. Descontos legais, parcelamento adequado à Capacidade de Pagamento e proteção do fluxo de caixa.">
+<meta name="keywords" content="transação tributária, lei 13.988, dívida ativa da união, PGFN, passivo fiscal empresarial, CAPAG, direito tributário empresarial">
+<meta property="og:title" content="Transação Tributária Empresarial (Lei 13.988) | Camila Arcanjo Advocacia">
+<meta property="og:description" content="Repactue o passivo fiscal da sua empresa com segurança jurídica e proteção do fluxo de caixa.">
+<meta name="theme-color" content="#5C1A2B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          vinho: '#5C1A2B',
+          'vinho-escuro': '#3E1120',
+          dourado: '#C9A96E',
+          'dourado-claro': '#DEC79A',
+          creme: '#F5EFE6',
+          carvao: '#2C2C2A',
+        },
+        fontFamily: {
+          serif: ["'Cormorant Garamond'", 'serif'],
+          sans: ["'Montserrat'", 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Montserrat', sans-serif; background-color: #5C1A2B; }
+  .font-serif { font-family: 'Cormorant Garamond', serif; }
+  .divider-gold {
+    width: 64px; height: 1px; background: #C9A96E; margin: 0 auto;
+  }
+  .card-hover { transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease; }
+  .card-hover:hover { transform: translateY(-6px); box-shadow: 0 22px 44px -22px rgba(44,44,42,0.35); }
+  .btn-gold {
+    background: #C9A96E; color: #2C2C2A; font-weight: 700; letter-spacing: .05em;
+    transition: background .3s ease, box-shadow .3s ease, transform .3s ease;
+  }
+  .btn-gold:hover { background: #DEC79A; box-shadow: 0 14px 34px -10px rgba(201,169,110,.55); transform: translateY(-2px); }
+  .btn-outline-gold {
+    border: 1px solid #C9A96E; color: #F5EFE6; transition: all .3s ease;
+  }
+  .btn-outline-gold:hover { background: #C9A96E; color: #2C2C2A; }
+  .num-badge {
+    width: 46px; height: 46px; border: 1px solid #C9A96E; border-radius: 9999px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif; font-style: italic; color: #C9A96E; font-size: 20px;
+    flex-shrink: 0;
+  }
+  .whats-float {
+    position: fixed; bottom: max(24px, env(safe-area-inset-bottom)); right: max(24px, env(safe-area-inset-right));
+    z-index: 1000; width: 58px; height: 58px; border-radius: 9999px;
+    background: #C9A96E; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 14px 34px -10px rgba(0,0,0,.45);
+    transition: transform .3s ease;
+  }
+  .whats-float:hover { transform: translateY(-3px) scale(1.05); }
+  .whats-float svg { width: 28px; height: 28px; fill: #2C2C2A; }
+  @keyframes pulseRing {
+    0% { transform: scale(1); opacity: .6; }
+    100% { transform: scale(1.45); opacity: 0; }
+  }
+  .whats-float::before {
+    content: ""; position: absolute; inset: -6px; border-radius: 9999px;
+    border: 1px solid rgba(201,169,110,.6); animation: pulseRing 2.4s ease-out infinite;
+  }
+</style>
+</head>
+<body class="bg-vinho text-creme antialiased">
+
+<!-- NAV -->
+<nav class="fixed top-0 left-0 right-0 z-50 bg-vinho/95 backdrop-blur border-b border-dourado/20">
+  <div class="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full border border-dourado flex items-center justify-center font-serif italic text-dourado-claro text-sm">CA</div>
+      <div class="leading-tight">
+        <div class="font-serif text-base tracking-widest text-white">CAMILA ARCANJO</div>
+        <div class="text-[10px] uppercase tracking-[0.2em] text-dourado-claro/80">Advocacia e Consultoria Jurídica</div>
+      </div>
+    </div>
+    <a href="#contato" class="hidden sm:inline-block btn-gold text-xs uppercase tracking-wider px-5 py-3 rounded-sm">
+      Análise de Viabilidade
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero" class="relative pt-40 pb-24 px-6 overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none opacity-[0.06]">
+    <div class="absolute -top-24 -right-24 w-[520px] h-[520px] rounded-full border border-dourado"></div>
+    <div class="absolute bottom-0 -left-32 w-[420px] h-[420px] rounded-full border border-dourado"></div>
+  </div>
+
+  <div class="relative max-w-4xl mx-auto text-center">
+    <p class="text-xs uppercase tracking-[0.3em] text-dourado-claro mb-6">Transação Tributária · Lei 13.988</p>
+    <h1 class="font-serif italic text-[32px] sm:text-[44px] md:text-[52px] leading-[1.2] text-white mb-6">
+      Repactue o Passivo Fiscal da sua Empresa com Segurança Jurídica e Proteção do Fluxo de Caixa
+    </h1>
+    <p class="text-creme/85 text-[15px] sm:text-base leading-relaxed max-w-2xl mx-auto mb-10">
+      A Transação Tributária (Lei 13.988) permite regularizar débitos inscritos na Dívida Ativa da União com descontos legais de até 70% sobre juros e multas e parcelamento adequado à Capacidade de Pagamento do seu negócio.
+    </p>
+    <a href="#contato" id="ctaHero" class="btn-gold inline-block text-sm uppercase tracking-wider px-9 py-4 rounded-sm">
+      Solicitar Análise de Viabilidade Fiscal
+    </a>
+    <p class="mt-6 text-[11px] uppercase tracking-[0.15em] text-dourado-claro/70">
+      Análise Técnica Individualizada &middot; Alinhada ao Provimento 205/2021 da OAB
+    </p>
+  </div>
+</section>
+
+<!-- SEÇÃO 2: RISCO DA INÉRCIA -->
+<section id="riscos" class="bg-creme text-carvao px-6 py-24">
+  <div class="max-w-5xl mx-auto text-center mb-16">
+    <p class="text-xs uppercase tracking-[0.3em] text-vinho mb-4">A Realidade Fiscal das Empresas</p>
+    <h2 class="font-serif text-[28px] sm:text-[36px] leading-tight max-w-3xl mx-auto">
+      Por que postergar pendências fiscais é a estratégia mais custosa contra o seu caixa?
+    </h2>
+  </div>
+
+  <div class="max-w-5xl mx-auto grid gap-6 sm:grid-cols-3">
+    <div class="card-hover bg-white border border-vinho/10 rounded-sm p-8">
+      <div class="font-serif italic text-vinho text-2xl mb-4">01</div>
+      <h3 class="font-semibold text-[15px] mb-3">Cruzamento por Inteligência Artificial</h3>
+      <p class="text-sm text-carvao/75 leading-relaxed">O Fisco cruza faturamento, notas fiscais e movimentações bancárias em tempo real, gerando autuações automáticas.</p>
+    </div>
+    <div class="card-hover bg-white border border-vinho/10 rounded-sm p-8">
+      <div class="font-serif italic text-vinho text-2xl mb-4">02</div>
+      <h3 class="font-semibold text-[15px] mb-3">Risco de Redirecionamento ao CPF</h3>
+      <p class="text-sm text-carvao/75 leading-relaxed">A inércia na gestão do passivo transfere o débito corrigido por juros para o patrimônio pessoal dos sócios e administradores.</p>
+    </div>
+    <div class="card-hover bg-white border border-vinho/10 rounded-sm p-8">
+      <div class="font-serif italic text-vinho text-2xl mb-4">03</div>
+      <h3 class="font-semibold text-[15px] mb-3">Bloqueio de Liquidez e Operação</h3>
+      <p class="text-sm text-carvao/75 leading-relaxed">Execuções fiscais repentinas travam contas bancárias (SISBAJUD), prejudicam a margem de lucro e impedem a emissão de certidões.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 3: O INSTRUMENTO LEGAL -->
+<section id="instrumento" class="bg-vinho px-6 py-24">
+  <div class="max-w-5xl mx-auto text-center mb-16">
+    <p class="text-xs uppercase tracking-[0.3em] text-dourado-claro mb-4">O Instrumento Legal</p>
+    <h2 class="font-serif italic text-[28px] sm:text-[36px] text-white leading-tight max-w-3xl mx-auto">
+      Como a Transação Tributária protege o fluxo de caixa do seu CNPJ
+    </h2>
+  </div>
+
+  <div class="max-w-4xl mx-auto grid gap-8 sm:grid-cols-2">
+    <div class="border-l border-dourado/40 pl-6">
+      <h3 class="font-serif text-xl text-dourado-claro mb-2">Redução Legítima de Multas e Juros</h3>
+      <p class="text-sm text-creme/80 leading-relaxed">Descontos aplicados conforme o grau de recuperabilidade da empresa apurado pela PGFN (CAPAG).</p>
+    </div>
+    <div class="border-l border-dourado/40 pl-6">
+      <h3 class="font-serif text-xl text-dourado-claro mb-2">Parcelamento Alongado</h3>
+      <p class="text-sm text-creme/80 leading-relaxed">Adequação das parcelas à capacidade operacional da empresa, evitando o estrangulamento financeiro.</p>
+    </div>
+    <div class="border-l border-dourado/40 pl-6">
+      <h3 class="font-serif text-xl text-dourado-claro mb-2">Liberação de Certidões (CPEN)</h3>
+      <p class="text-sm text-creme/80 leading-relaxed">Emissão da Certidão Positiva com Efeito de Negativa para manter contratos, licitações e linhas de crédito.</p>
+    </div>
+    <div class="border-l border-dourado/40 pl-6">
+      <h3 class="font-serif text-xl text-dourado-claro mb-2">Paralisação de Atos Expropriatórios</h3>
+      <p class="text-sm text-creme/80 leading-relaxed">Suspensão de execuções fiscais e penhoras online mediante enquadramento legal legítimo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 4: METODOLOGIA -->
+<section id="metodologia" class="bg-creme text-carvao px-6 py-24">
+  <div class="max-w-3xl mx-auto text-center mb-6">
+    <p class="text-xs uppercase tracking-[0.3em] text-vinho mb-4">Metodologia e Gestão de Riscos</p>
+    <h2 class="font-serif text-[28px] sm:text-[36px] leading-tight">Nossa Abordagem: Auditoria Antes do Protocolo</h2>
+  </div>
+  <p class="max-w-2xl mx-auto text-center text-sm text-carvao/75 leading-relaxed mb-16">
+    Soluções genéricas e promessas automáticas geram passivos ainda maiores. Aplicamos uma matriz de Gestão de Riscos e precisão contábil para auditar o cenário exato do seu CNPJ antes de qualquer negociação formal.
+  </p>
+
+  <div class="max-w-3xl mx-auto space-y-8">
+    <div class="flex gap-6 items-start">
+      <div class="num-badge border-vinho text-vinho">1</div>
+      <div>
+        <h3 class="font-semibold text-[15px] mb-1">Triagem de Dados &amp; Avaliação da Capacidade de Pagamento (CAPAG)</h3>
+        <p class="text-sm text-carvao/70 leading-relaxed">Levantamento completo dos débitos inscritos e apuração do enquadramento na classificação de recuperabilidade da PGFN.</p>
+      </div>
+    </div>
+    <div class="flex gap-6 items-start">
+      <div class="num-badge border-vinho text-vinho">2</div>
+      <div>
+        <h3 class="font-semibold text-[15px] mb-1">Mapeamento de Oportunidades &amp; Enquadramento na Lei 13.988</h3>
+        <p class="text-sm text-carvao/70 leading-relaxed">Identificação das modalidades de transação aplicáveis ao perfil e ao setor da empresa.</p>
+      </div>
+    </div>
+    <div class="flex gap-6 items-start">
+      <div class="num-badge border-vinho text-vinho">3</div>
+      <div>
+        <h3 class="font-semibold text-[15px] mb-1">Protocolo Estratégico &amp; Acompanhamento de Conformidade</h3>
+        <p class="text-sm text-carvao/70 leading-relaxed">Formalização da proposta junto à PGFN/RFB e monitoramento contínuo do cumprimento das condições pactuadas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO 5: SOBRE -->
+<section id="sobre" class="bg-vinho px-6 py-24">
+  <div class="max-w-4xl mx-auto grid gap-12 sm:grid-cols-[auto,1fr] items-start">
+    <div class="w-20 h-20 rounded-full border border-dourado flex items-center justify-center font-serif italic text-dourado-claro text-2xl mx-auto sm:mx-0">CA</div>
+    <div>
+      <p class="text-xs uppercase tracking-[0.3em] text-dourado-claro mb-4 text-center sm:text-left">Sobre a Consultoria</p>
+      <h2 class="font-serif italic text-2xl sm:text-3xl text-white mb-5 text-center sm:text-left">Dra. Camila Arcanjo</h2>
+      <p class="text-sm text-creme/85 leading-relaxed mb-4">
+        Advogada com atuação em Direito Tributário, graduanda em Ciências Contábeis e especialista em Gestão de Riscos Corporativos. Sua atuação combina a precisão técnica da análise contábil com o rigor jurídico exigido pela negociação de passivos fiscais complexos.
+      </p>
+      <p class="text-sm text-creme/85 leading-relaxed">
+        O trabalho é direcionado a empresários, diretores e gestores dos setores de comércio, indústria, serviços, logística e saúde que buscam uma atuação preventiva, analítica e de alta performance na gestão dos riscos tributários do seu negócio.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO / CTA FINAL -->
+<section id="contato" class="bg-creme text-carvao px-6 py-24">
+  <div class="max-w-2xl mx-auto text-center">
+    <p class="text-xs uppercase tracking-[0.3em] text-vinho mb-4">Próximo Passo</p>
+    <h2 class="font-serif text-[26px] sm:text-[32px] leading-tight mb-5">
+      Solicite a Análise de Viabilidade Fiscal do seu CNPJ
+    </h2>
+    <p class="text-sm text-carvao/75 leading-relaxed mb-10">
+      O primeiro passo é uma avaliação técnica individualizada do cenário da sua empresa junto à PGFN/Receita Federal. Fale diretamente pelo WhatsApp com a equipe de Camila Arcanjo Advocacia.
+    </p>
+    <a href="#" id="ctaFinal" class="btn-gold inline-flex items-center gap-3 text-sm uppercase tracking-wider px-9 py-4 rounded-sm">
+      <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5" aria-hidden="true">
+        <path d="M17.6 6.32A8.86 8.86 0 0 0 12.02 3.5 8.94 8.94 0 0 0 3.1 12.42a8.9 8.9 0 0 0 1.32 4.7L3.5 21l3.98-1.04a8.9 8.9 0 0 0 4.53 1.24h.01a8.94 8.94 0 0 0 8.92-8.92 8.9 8.9 0 0 0-3.34-6.96Z"/>
+      </svg>
+      Solicitar Análise de Viabilidade Fiscal
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER / COMPLIANCE -->
+<footer class="bg-vinho-escuro px-6 py-14 border-t border-dourado/15">
+  <div class="max-w-3xl mx-auto text-center">
+    <div class="w-11 h-11 rounded-full border border-dourado flex items-center justify-center font-serif italic text-dourado-claro text-sm mx-auto mb-4">CA</div>
+    <div class="font-serif tracking-widest text-white text-sm mb-1">CAMILA ARCANJO</div>
+    <div class="text-[10px] uppercase tracking-[0.2em] text-dourado-claro/70 mb-8">Advocacia e Consultoria Jurídica</div>
+    <p class="text-[12px] text-creme/60 leading-relaxed max-w-xl mx-auto">
+      Conteúdo de caráter estritamente educativo e informativo. A Transação Tributária exige análise técnica individualizada e não garante resultados sem o devido enquadramento legal. Consulte um advogado tributarista de sua confiança e avalie a viabilidade do seu cenário.
+    </p>
+    <p class="text-[11px] text-creme/40 mt-6">&copy; <span id="year"></span> Camila Arcanjo — Advocacia e Consultoria Jurídica. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="#" id="whatsFloat" target="_blank" rel="noopener" class="whats-float" aria-label="Falar no WhatsApp com Camila Arcanjo">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M17.6 6.32A8.86 8.86 0 0 0 12.02 3.5 8.94 8.94 0 0 0 3.1 12.42a8.9 8.9 0 0 0 1.32 4.7L3.5 21l3.98-1.04a8.9 8.9 0 0 0 4.53 1.24h.01a8.94 8.94 0 0 0 8.92-8.92 8.9 8.9 0 0 0-3.34-6.96Z"/>
+  </svg>
+</a>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const WHATS_NUMBER = '5531984609936';
+  const WHATS_MESSAGE = 'Olá! Sou empresário(a)/gestor(a) e gostaria de solicitar uma Análise de Viabilidade Fiscal sobre a Transação Tributária (Lei 13.988) para os débitos da minha empresa junto à PGFN/Receita Federal.';
+  const whatsLink = `https://wa.me/${WHATS_NUMBER}?text=${encodeURIComponent(WHATS_MESSAGE)}`;
+
+  ['ctaHero', 'ctaFinal', 'whatsFloat'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.setAttribute('href', whatsLink);
+  });
+
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const targetId = this.getAttribute('href');
+      if (targetId.length > 1) {
+        const target = document.querySelector(targetId);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
