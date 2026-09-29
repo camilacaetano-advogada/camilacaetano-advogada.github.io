@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "make-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "integromat/make-skills"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "make-skills@make-marketplace": true
+  }
+}
