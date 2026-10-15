@@ -12,5 +12,22 @@
     "publicado_em": "2026-10-15T14:56:30.217Z",
     "permalink": "https://www.instagram.com/stories/advogadadigital/4008547995235336577",
     "midia_id": "17893370868681943"
+  },
+  {
+    "id": "20261015-2100-carrossel",
+    "tipo": "CAROUSEL",
+    "imagens": [
+      "carrossel/c2-1.jpg",
+      "carrossel/c2-2.jpg",
+      "carrossel/c2-3.jpg",
+      "carrossel/c2-4.jpg",
+      "carrossel/c2-5.jpg",
+      "carrossel/c2-6.jpg",
+      "carrossel/c2-7.jpg"
+    ],
+    "legenda": "Conta banida não é o fim, mas o que você faz nas primeiras horas muda tudo.\n\nSalva esse post e comenta BANIDA que eu te mando o SOS Conta Banida no direct.\n\nCada caso é um caso, esse conteúdo é informativo.",
+    "data_hora": "2026-10-15T21:00:00-03:00",
+    "status": "pendente",
+    "mensagem_erro": ""
   }
 ]
