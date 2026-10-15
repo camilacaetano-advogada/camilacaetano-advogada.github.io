@@ -1,0 +1,53 @@
+name: Publicar no Instagram
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+    inputs:
+      simular:
+        description: "Só simular (não publica nada)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publicar-instagram
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Publicar posts vencidos
+        env:
+          IG_TOKEN: ${{ secrets.IG_TOKEN }}
+          RESULTADOS_PATH: ${{ runner.temp }}/resultados.json
+        run: node scripts/publicar.js ${{ inputs.simular && '--simular' || '' }}
+
+      - name: Gravar status no fila.json
+        if: always()
+        env:
+          RESULTADOS_PATH: ${{ runner.temp }}/resultados.json
+        run: |
+          git diff --quiet fila.json && exit 0
+          git config user.name "agendador-instagram"
+          git config user.email "agendador-instagram@users.noreply.github.com"
+          git add fila.json
+          git commit -m "Agendador: atualiza status da fila"
+          for i in 1 2 3; do
+            git push && exit 0
+            # alguém mexeu na fila durante a execução: pega a versão nova e reaplica os status
+            git fetch origin "${{ github.ref_name }}"
+            git reset --hard "origin/${{ github.ref_name }}"
+            node scripts/aplicar_resultados.js "$RESULTADOS_PATH"
+            git add fila.json
+            git commit -m "Agendador: atualiza status da fila" || exit 0
+          done
+          echo "Não consegui gravar o status; confira a fila antes da próxima execução." >&2
+          exit 1

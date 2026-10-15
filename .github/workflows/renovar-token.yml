@@ -1,0 +1,37 @@
+name: Renovar token do Instagram
+
+on:
+  schedule:
+    - cron: "0 12 * * 1" # toda segunda, 09h de Brasília
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  renovar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Renovar token
+        env:
+          IG_TOKEN: ${{ secrets.IG_TOKEN }}
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: node scripts/renovar_token.js
+
+      - name: Avisar por issue se falhou
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -z "$(gh issue list --state open --label token-instagram --json number --jq '.[0].number')" ]; then
+            gh label create token-instagram --color D93F0B --description "Token do Instagram" 2>/dev/null || true
+            gh issue create --label token-instagram \
+              --title "⚠️ Token do Instagram precisa de atenção" \
+              --body "A renovação semanal falhou e os posts agendados podem parar de sair. Veja o log: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+          Se o token expirou: gere um novo no painel do app Meta (Instagram > Configuração da API > Gerar token) e atualize o segredo IG_TOKEN em Settings > Secrets and variables > Actions. Depois feche esta issue."
+          fi
