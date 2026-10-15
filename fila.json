@@ -1,1 +1,13 @@
-[]
+[
+  {
+    "id": "teste-story",
+    "tipo": "STORY",
+    "imagens": [
+      "stories/teste.jpg"
+    ],
+    "legenda": "",
+    "data_hora": "2026-10-15T11:55:04-03:00",
+    "status": "pendente",
+    "mensagem_erro": ""
+  }
+]
