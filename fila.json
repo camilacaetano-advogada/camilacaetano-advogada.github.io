@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "id": "teste-story",
+    "tipo": "STORY",
+    "imagens": [
+      "stories/teste.jpg"
+    ],
+    "legenda": "",
+    "data_hora": "2026-10-15T11:55:04-03:00",
+    "status": "publicado",
+    "mensagem_erro": "",
+    "publicado_em": "2026-10-15T14:56:30.217Z",
+    "permalink": "https://www.instagram.com/stories/advogadadigital/4008547995235336577",
+    "midia_id": "17893370868681943"
+  }
+]

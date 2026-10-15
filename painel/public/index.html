@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Agendador @advogadadigital</title>
+<style>
+  :root {
+    --bg: #f6f5f3; --card: #fff; --texto: #1d1b20; --suave: #6b6770; --linha: #e4e1dc;
+    --marca: #7a2e5c; --marca-texto: #fff;
+    --ok: #1f7a4d; --ok-bg: #e2f4ea; --pend: #8a5a00; --pend-bg: #fdf0d2; --erro: #b3261e; --erro-bg: #fbe3e1;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #151317; --card: #211e25; --texto: #f1eef3; --suave: #a29ca8; --linha: #36313b;
+      --marca: #d98ab9; --marca-texto: #1a0f16;
+      --ok: #7fd6a6; --ok-bg: #173a29; --pend: #f0c56a; --pend-bg: #3b2f12; --erro: #ff9b92; --erro-bg: #432020;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--texto); font: 16px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 16px; }
+  header { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  h1 { font-size: 1.2rem; margin: 0; flex: 1 1 auto; }
+  button, select, input, textarea { font: inherit; color: inherit; }
+  button { border: 1px solid var(--linha); background: var(--card); border-radius: 10px; padding: 8px 14px; cursor: pointer; }
+  button.principal { background: var(--marca); color: var(--marca-texto); border-color: var(--marca); font-weight: 600; }
+  button.perigo { color: var(--erro); }
+  button:disabled { opacity: .5; cursor: default; }
+  input[type=password], input[type=datetime-local], textarea {
+    width: 100%; padding: 10px; border: 1px solid var(--linha); border-radius: 10px; background: var(--card);
+  }
+  textarea { min-height: 120px; resize: vertical; }
+  label { display: block; font-weight: 600; margin: 14px 0 6px; }
+  .filtros { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .filtros button[aria-pressed=true] { background: var(--texto); color: var(--bg); border-color: var(--texto); }
+  .post { background: var(--card); border: 1px solid var(--linha); border-radius: 14px; padding: 12px; margin-bottom: 10px; }
+  .topo { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .tipo { font-weight: 700; }
+  .data { color: var(--suave); flex: 1 1 auto; }
+  .pilula { font-size: .8rem; font-weight: 700; padding: 2px 10px; border-radius: 99px; }
+  .pilula.pendente { background: var(--pend-bg); color: var(--pend); }
+  .pilula.publicado { background: var(--ok-bg); color: var(--ok); }
+  .pilula.erro { background: var(--erro-bg); color: var(--erro); }
+  .fotos { display: flex; gap: 6px; overflow-x: auto; margin: 10px 0; padding-bottom: 2px; }
+  .fotos img { height: 96px; width: auto; border-radius: 8px; border: 1px solid var(--linha); background: var(--linha); flex: none; }
+  .legenda { white-space: pre-wrap; color: var(--suave); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin: 0 0 8px; }
+  .msgerro { color: var(--erro); background: var(--erro-bg); padding: 8px 10px; border-radius: 8px; margin: 0 0 8px; font-size: .92rem; }
+  .acoes { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  a { color: var(--marca); }
+  .vazio { text-align: center; color: var(--suave); padding: 40px 0; }
+  .aviso { background: var(--pend-bg); color: var(--pend); padding: 8px 10px; border-radius: 8px; margin: 8px 0; font-size: .92rem; }
+  #toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: var(--texto); color: var(--bg);
+    padding: 10px 16px; border-radius: 10px; max-width: 90vw; z-index: 10; }
+  #toast[hidden] { display: none; }
+  dialog { border: 0; border-radius: 16px; padding: 18px; width: min(560px, 94vw); background: var(--card); color: var(--texto); }
+  dialog::backdrop { background: rgba(0,0,0,.5); }
+  dialog h2 { margin: 0 0 4px; font-size: 1.1rem; }
+  .tipos { display: flex; gap: 6px; }
+  .tipos label { flex: 1; margin: 0; font-weight: 500; }
+  .tipos input { position: absolute; opacity: 0; }
+  .tipos span { display: block; text-align: center; padding: 10px 6px; border: 1px solid var(--linha); border-radius: 10px; cursor: pointer; }
+  .tipos input:checked + span { background: var(--marca); color: var(--marca-texto); border-color: var(--marca); font-weight: 600; }
+  .tipos input:focus-visible + span { outline: 2px solid var(--marca); outline-offset: 2px; }
+  .previas { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .previa { width: 92px; text-align: center; font-size: .8rem; }
+  .previa img { width: 92px; height: 92px; object-fit: cover; border-radius: 8px; border: 1px solid var(--linha); display: block; }
+  .previa div { display: flex; justify-content: space-between; }
+  .previa button { padding: 0 6px; border-radius: 6px; }
+  .contador { color: var(--suave); font-size: .85rem; text-align: right; }
+  .rodape { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+  #login { max-width: 360px; margin: 14vh auto 0; }
+</style>
+</head>
+<body>
+<main>
+  <section id="login" hidden>
+    <h1>Agendador @advogadadigital</h1>
+    <label for="senha">Senha</label>
+    <input id="senha" type="password" autocomplete="current-password">
+    <p id="loginErro" class="msgerro" hidden></p>
+    <p><button id="entrar" class="principal">Entrar</button></p>
+  </section>
+
+  <section id="app" hidden>
+    <header>
+      <h1>Fila de posts</h1>
+      <button id="novo" class="principal">+ Novo post</button>
+      <button id="sair">Sair</button>
+    </header>
+    <div class="filtros" id="filtros"></div>
+    <div id="lista"></div>
+  </section>
+</main>
+
+<dialog id="dlgNovo">
+  <h2>Novo post</h2>
+  <label>Tipo</label>
+  <div class="tipos">
+    <label><input type="radio" name="tipo" value="CAROUSEL" checked><span>Carrossel</span></label>
+    <label><input type="radio" name="tipo" value="IMAGE"><span>Imagem</span></label>
+    <label><input type="radio" name="tipo" value="STORY"><span>Story</span></label>
+  </div>
+  <label for="arquivos" id="rotArquivos">Imagens (2 a 10)</label>
+  <input id="arquivos" type="file" accept="image/*" multiple>
+  <div id="previas" class="previas"></div>
+  <div id="avisosImg"></div>
+  <div id="blocoLegenda">
+    <label for="legenda">Legenda</label>
+    <textarea id="legenda" maxlength="2200"></textarea>
+    <div class="contador"><span id="contador">0</span>/2200</div>
+  </div>
+  <label for="quando">Data e hora (Brasília)</label>
+  <input id="quando" type="datetime-local">
+  <p id="novoErro" class="msgerro" hidden></p>
+  <div class="rodape">
+    <button id="cancelarNovo" type="button">Cancelar</button>
+    <button id="agendar" class="principal" type="button">Agendar</button>
+  </div>
+</dialog>
+
+<dialog id="dlgEditar">
+  <h2 id="editarTitulo">Editar post</h2>
+  <div id="editarLegendaBloco">
+    <label for="editarLegenda">Legenda</label>
+    <textarea id="editarLegenda" maxlength="2200"></textarea>
+  </div>
+  <label for="editarQuando">Data e hora (Brasília)</label>
+  <input id="editarQuando" type="datetime-local">
+  <p id="editarErro" class="msgerro" hidden></p>
+  <div class="rodape">
+    <button id="cancelarEditar" type="button">Cancelar</button>
+    <button id="salvarEditar" class="principal" type="button">Salvar</button>
+  </div>
+</dialog>
+
+<div id="toast" role="status" hidden></div>
+
+<script>
+'use strict';
+const $ = (id) => document.getElementById(id);
+const NOME_TIPO = { CAROUSEL: 'Carrossel', IMAGE: 'Imagem', STORY: 'Story' };
+const NOME_STATUS = { pendente: 'Agendado', publicado: 'Publicado', erro: 'Erro' };
+const LIMITES = { CAROUSEL: [2, 10], IMAGE: [1, 1], STORY: [1, 1] };
+let estado = { posts: [], repo: '', branch: 'main', filtro: 'todos' };
+let selecionadas = []; // { file, url, w, h }
+let editando = null;
+
+// ---------- utilidades ----------
+function aviso(texto) {
+  const t = $('toast');
+  t.textContent = texto; t.hidden = false;
+  clearTimeout(aviso.id); aviso.id = setTimeout(() => (t.hidden = true), 3500);
+}
+function mostrarErro(el, texto) { el.textContent = texto || ''; el.hidden = !texto; }
+
+async function chamar(url, corpo) {
+  const r = await fetch(url, corpo === undefined ? {} : {
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(corpo),
+  });
+  const dados = await r.json().catch(() => ({}));
+  if (r.status === 401 && url !== '/api/login') { telaLogin(); throw new Error('Sessão expirada. Entre de novo.'); }
+  if (!r.ok) throw new Error(dados.erro || 'Erro ' + r.status);
+  return dados;
+}
+
+const fmtData = (iso) => new Date(iso).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo', dateStyle: 'short', timeStyle: 'short' });
+// valor para <input type=datetime-local>, sempre no horário de Brasília
+function paraInput(iso) {
+  const d = new Date(Date.parse(iso) - 3 * 3600e3).toISOString();
+  return d.slice(0, 16);
+}
+const urlImagem = (c) => `https://raw.githubusercontent.com/${estado.repo}/${estado.branch}/${c.split('/').map(encodeURIComponent).join('/')}`;
+
+// ---------- login ----------
+function telaLogin() { $('app').hidden = true; $('login').hidden = false; $('senha').focus(); }
+async function entrar() {
+  mostrarErro($('loginErro'), '');
+  $('entrar').disabled = true;
+  try { await chamar('/api/login', { senha: $('senha').value }); $('senha').value = ''; await carregar(); }
+  catch (e) { mostrarErro($('loginErro'), e.message); }
+  finally { $('entrar').disabled = false; }
+}
+$('entrar').onclick = entrar;
+$('senha').onkeydown = (e) => { if (e.key === 'Enter') entrar(); };
+$('sair').onclick = async () => { await fetch('/api/sair', { method: 'POST' }); telaLogin(); };
+
+// ---------- lista ----------
+async function carregar() {
+  try {
+    const d = await chamar('/api/fila');
+    estado = { ...estado, posts: d.posts, repo: d.repo, branch: d.branch };
+    $('login').hidden = true; $('app').hidden = false;
+    desenhar();
+  } catch (e) { if ($('app').hidden) telaLogin(); else aviso(e.message); }
+}
+
+function desenhar() {
+  const cont = (s) => estado.posts.filter((p) => s === 'todos' || p.status === s).length;
+  const filtros = [['todos', 'Todos'], ['pendente', 'Agendados'], ['publicado', 'Publicados'], ['erro', 'Com erro']];
+  $('filtros').replaceChildren(...filtros.map(([chave, rotulo]) => {
+    const b = document.createElement('button');
+    b.textContent = `${rotulo} (${cont(chave)})`;
+    b.setAttribute('aria-pressed', String(estado.filtro === chave));
+    b.onclick = () => { estado.filtro = chave; desenhar(); };
+    return b;
+  }));
+
+  const ordem = { pendente: 0, erro: 1, publicado: 2 };
+  const itens = estado.posts.filter((p) => estado.filtro === 'todos' || p.status === estado.filtro)
+    .sort((a, b) => ordem[a.status] - ordem[b.status] ||
+      (a.status === 'publicado' ? Date.parse(b.data_hora) - Date.parse(a.data_hora) : Date.parse(a.data_hora) - Date.parse(b.data_hora)));
+
+  if (!itens.length) {
+    const v = document.createElement('div'); v.className = 'vazio';
+    v.textContent = estado.posts.length ? 'Nada nesta aba.' : 'A fila está vazia. Toque em “+ Novo post”.';
+    return $('lista').replaceChildren(v);
+  }
+  $('lista').replaceChildren(...itens.map(cartao));
+}
+
+function el(tag, classe, texto) {
+  const e = document.createElement(tag);
+  if (classe) e.className = classe;
+  if (texto != null) e.textContent = texto;
+  return e;
+}
+
+function cartao(p) {
+  const c = el('article', 'post');
+  const topo = el('div', 'topo');
+  topo.append(el('span', 'tipo', `${NOME_TIPO[p.tipo] || p.tipo}${p.imagens.length > 1 ? ` · ${p.imagens.length} imagens` : ''}`),
+    el('span', 'data', fmtData(p.data_hora)), el('span', 'pilula ' + p.status, NOME_STATUS[p.status] || p.status));
+  const fotos = el('div', 'fotos');
+  for (const i of p.imagens) { const im = el('img'); im.src = urlImagem(i); im.loading = 'lazy'; im.alt = ''; fotos.append(im); }
+  c.append(topo, fotos);
+  if (p.legenda) c.append(el('p', 'legenda', p.legenda));
+  if (p.mensagem_erro) c.append(el('p', 'msgerro', p.mensagem_erro));
+
+  const ac = el('div', 'acoes');
+  if (p.permalink) { const a = el('a', null, 'Ver no Instagram'); a.href = p.permalink; a.target = '_blank'; a.rel = 'noopener'; ac.append(a); }
+  if (p.status === 'pendente' || p.status === 'erro') {
+    const ed = el('button', null, p.status === 'erro' ? 'Tentar de novo…' : 'Editar');
+    ed.onclick = () => abrirEditar(p);
+    const rem = el('button', 'perigo', 'Remover');
+    rem.onclick = () => remover(p, rem);
+    ac.append(ed, rem);
+  }
+  if (ac.children.length) c.append(ac);
+  return c;
+}
+
+async function remover(p, botao) {
+  if (!confirm('Remover este post da fila? As imagens continuam no repositório.')) return;
+  botao.disabled = true;
+  try { await chamar('/api/fila', { acao: 'remover', id: p.id }); aviso('Removido.'); await carregar(); }
+  catch (e) { aviso(e.message); botao.disabled = false; }
+}
+
+// ---------- editar ----------
+function abrirEditar(p) {
+  editando = p;
+  $('editarTitulo').textContent = p.status === 'erro' ? 'Tentar de novo' : 'Editar post';
+  $('editarLegendaBloco').hidden = p.tipo === 'STORY';
+  $('editarLegenda').value = p.legenda || '';
+  const futuro = Date.parse(p.data_hora) > Date.now() + 60e3;
+  $('editarQuando').value = futuro ? paraInput(p.data_hora) : '';
+  mostrarErro($('editarErro'), '');
+  $('dlgEditar').showModal();
+}
+$('cancelarEditar').onclick = () => $('dlgEditar').close();
+$('salvarEditar').onclick = async () => {
+  const corpo = { acao: 'editar', id: editando.id };
+  if ($('editarQuando').value) corpo.data_hora = $('editarQuando').value;
+  if (editando.tipo !== 'STORY') corpo.legenda = $('editarLegenda').value;
+  $('salvarEditar').disabled = true; mostrarErro($('editarErro'), '');
+  try { await chamar('/api/fila', corpo); $('dlgEditar').close(); aviso('Salvo.'); await carregar(); }
+  catch (e) { mostrarErro($('editarErro'), e.message); }
+  finally { $('salvarEditar').disabled = false; }
+};
+
+// ---------- novo post ----------
+const tipoAtual = () => document.querySelector('input[name=tipo]:checked').value;
+
+function atualizarFormulario() {
+  const t = tipoAtual(), [min, max] = LIMITES[t];
+  $('rotArquivos').textContent = max > 1 ? `Imagens (${min} a ${max})` : 'Imagem';
+  $('arquivos').multiple = max > 1;
+  $('blocoLegenda').hidden = t === 'STORY';
+  if (selecionadas.length > max) selecionadas = selecionadas.slice(0, max);
+  desenharPrevias();
+}
+document.querySelectorAll('input[name=tipo]').forEach((r) => (r.onchange = atualizarFormulario));
+$('legenda').oninput = () => ($('contador').textContent = $('legenda').value.length);
+
+$('novo').onclick = () => {
+  selecionadas.forEach((s) => URL.revokeObjectURL(s.url)); selecionadas = [];
+  $('arquivos').value = ''; $('legenda').value = ''; $('contador').textContent = '0'; $('quando').value = '';
+  mostrarErro($('novoErro'), '');
+  atualizarFormulario();
+  $('dlgNovo').showModal();
+};
+$('cancelarNovo').onclick = () => $('dlgNovo').close();
+
+$('arquivos').onchange = async () => {
+  const max = LIMITES[tipoAtual()][1];
+  for (const file of $('arquivos').files) {
+    if (selecionadas.length >= max) break;
+    try {
+      const b = await createImageBitmap(file, { imageOrientation: 'from-image' });
+      selecionadas.push({ file, url: URL.createObjectURL(file), w: b.width, h: b.height });
+    } catch (_) { mostrarErro($('novoErro'), `Não consegui abrir “${file.name}”. É uma imagem?`); }
+  }
+  $('arquivos').value = '';
+  desenharPrevias();
+};
+
+function desenharPrevias() {
+  const t = tipoAtual();
+  $('previas').replaceChildren(...selecionadas.map((s, i) => {
+    const d = el('div', 'previa'); const im = el('img'); im.src = s.url; im.alt = '';
+    const barra = el('div');
+    const esq = el('button', null, '◀'), dir = el('button', null, '▶'), x = el('button', 'perigo', '✕');
+    esq.disabled = i === 0; dir.disabled = i === selecionadas.length - 1;
+    esq.onclick = () => { [selecionadas[i - 1], selecionadas[i]] = [selecionadas[i], selecionadas[i - 1]]; desenharPrevias(); };
+    dir.onclick = () => { [selecionadas[i + 1], selecionadas[i]] = [selecionadas[i], selecionadas[i + 1]]; desenharPrevias(); };
+    x.onclick = () => { URL.revokeObjectURL(s.url); selecionadas.splice(i, 1); desenharPrevias(); };
+    barra.append(esq, x, dir); d.append(im, barra); return d;
+  }));
+  const av = [];
+  for (const s of selecionadas) {
+    const r = s.w / s.h;
+    if (t === 'STORY' ? Math.abs(r - 9 / 16) > 0.05 : (r < 0.8 || r > 1.91))
+      av.push(`“${s.file.name}” (${s.w}×${s.h}): ${t === 'STORY' ? 'não é 9:16, o story pode ficar cortado.' : 'fora da proporção aceita no feed (de 4:5 a 1,91:1), o Instagram pode recusar.'}`);
+  }
+  $('avisosImg').replaceChildren(...av.map((a) => el('div', 'aviso', a)));
+}
+
+// Converte para JPEG (aceita PNG/WEBP/HEIC do navegador) e mantém abaixo de ~2,9 MB por imagem.
+async function prepararJpeg(file) {
+  const bmp = await createImageBitmap(file, { imageOrientation: 'from-image' });
+  let escala = Math.min(1, 1920 / Math.max(bmp.width, bmp.height)), q = 0.92;
+  for (let i = 0; i < 8; i++) {
+    const c = document.createElement('canvas');
+    c.width = Math.round(bmp.width * escala); c.height = Math.round(bmp.height * escala);
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height); ctx.drawImage(bmp, 0, 0, c.width, c.height);
+    const blob = await new Promise((r) => c.toBlob(r, 'image/jpeg', q));
+    if (blob && blob.size <= 2.9e6) return blob;
+    q = Math.max(0.6, q - 0.06); escala *= 0.9;
+  }
+  throw new Error(`“${file.name}” ficou pesada demais. Tente uma imagem menor.`);
+}
+const base64 = (blob) => new Promise((ok, falha) => {
+  const fr = new FileReader(); fr.onload = () => ok(String(fr.result).split(',')[1]); fr.onerror = falha; fr.readAsDataURL(blob);
+});
+
+$('agendar').onclick = async () => {
+  const tipo = tipoAtual(), [min, max] = LIMITES[tipo], erro = $('novoErro');
+  mostrarErro(erro, '');
+  if (selecionadas.length < min || selecionadas.length > max) return mostrarErro(erro, `Escolha ${min === max ? min : `${min} a ${max}`} imagem(ns).`);
+  if (!$('quando').value) return mostrarErro(erro, 'Escolha a data e a hora.');
+  if (!confirm('Agendar este post?')) return;
+  const botao = $('agendar'); botao.disabled = true;
+  try {
+    const pasta = tipo === 'STORY' ? 'stories' : 'carrossel', caminhos = [];
+    for (let i = 0; i < selecionadas.length; i++) {
+      botao.textContent = `Enviando ${i + 1}/${selecionadas.length}…`;
+      const blob = await prepararJpeg(selecionadas[i].file);
+      const r = await chamar('/api/upload', { pasta, nome: selecionadas[i].file.name, dados: await base64(blob) });
+      caminhos.push(r.caminho);
+    }
+    botao.textContent = 'Agendando…';
+    await chamar('/api/fila', { acao: 'adicionar', tipo, imagens: caminhos, legenda: tipo === 'STORY' ? '' : $('legenda').value, data_hora: $('quando').value });
+    $('dlgNovo').close(); aviso('Agendado!'); await carregar();
+  } catch (e) { mostrarErro(erro, e.message); }
+  finally { botao.disabled = false; botao.textContent = 'Agendar'; }
+};
+
+carregar();
+</script>
+</body>
+</html>
