@@ -60,7 +60,67 @@ function lerDataHora(txt) {
   return { iso: `${ano}-${p(mes)}-${p(dia)}T${p(hh)}:${p(mm)}:00${FUSO}`, quando: new Date(d.getTime() + 3 * 3600e3) };
 }
 
+// Cria o post, confere duplicidade e grava na fila. Usado pelo modo interativo e pelo modo de uma linha.
+function gravarPost({ fila, tipo, imagens, legenda, data }) {
+  if (fila.some((p) => p.status === 'pendente' && p.data_hora === data.iso && p.imagens.join() === imagens.join()))
+    throw new Error('Já existe um post pendente com essas imagens nesse horário.');
+  const base = `${data.iso.slice(0, 10).replace(/-/g, '')}-${data.iso.slice(11, 16).replace(':', '')}-${NOMES[tipo]}`;
+  let id = base;
+  for (let n = 2; fila.some((p) => p.id === id); n++) id = `${base}-${n}`;
+  fila.push({ id, tipo, imagens, legenda, data_hora: data.iso, status: 'pendente', mensagem_erro: '' });
+  fila.sort((a, b) => Date.parse(a.data_hora) - Date.parse(b.data_hora));
+  gravarFila(fila);
+  return id;
+}
+
+// ---------- modo de uma linha (sem perguntas), para scripts e para o Claude ----------
+// node adicionar.js --tipo carrossel|imagem|story --imagens a.jpg,b.jpg [--legenda "texto" | --legenda-arquivo legenda.txt] --data "20/10/2026 18:30"
+function argumentos() {
+  const a = {};
+  for (let i = 2; i < process.argv.length; i++) {
+    if (!process.argv[i].startsWith('--')) throw new Error(`Argumento inesperado: ${process.argv[i]}`);
+    a[process.argv[i].slice(2)] = process.argv[++i];
+  }
+  return a;
+}
+
+function modoLinha(a) {
+  const tipo = { carrossel: 'CAROUSEL', carousel: 'CAROUSEL', imagem: 'IMAGE', image: 'IMAGE', story: 'STORY', stories: 'STORY' }[String(a.tipo).toLowerCase()];
+  if (!tipo) throw new Error('--tipo deve ser carrossel, imagem ou story');
+  const [min, max] = LIMITES[tipo];
+  const pasta = PASTAS[tipo];
+
+  const itens = String(a.imagens || '').split(',').map((x) => x.trim()).filter(Boolean).map((x) => {
+    const rel = x.includes('/') ? x : `${pasta}/${x}`;
+    return fs.existsSync(path.join(__dirname, rel)) ? rel : `${rel}.jpg`;
+  });
+  if (itens.length < min || itens.length > max) throw new Error(`Para ${NOMES[tipo]}, informe ${min === max ? min : `${min} a ${max}`} imagem(ns) em --imagens (separadas por vírgula, na ordem).`);
+  for (const rel of itens) {
+    if (!new RegExp(`^${pasta}/[^/]+\\.jpe?g$`, 'i').test(rel)) throw new Error(`${rel}: a imagem deve estar em ${pasta}/ e ser .jpg`);
+    if (!fs.existsSync(path.join(__dirname, rel))) throw new Error(`${rel}: arquivo não encontrado`);
+    conferirImagem(rel, tipo);
+  }
+
+  let legenda = '';
+  if (tipo !== 'STORY') {
+    legenda = a['legenda-arquivo'] ? fs.readFileSync(a['legenda-arquivo'], 'utf8').replace(/\s+$/, '') : String(a.legenda || '').replace(/\\n/g, '\n');
+    if (legenda.length > 2200) throw new Error('A legenda passa de 2200 caracteres.');
+  }
+
+  // aceita também ISO: 2026-10-20T18:30 ou 2026-10-20T18:30:00-03:00
+  const iso = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::\d{2})?(?:-03:00)?$/.exec(String(a.data || ''));
+  const data = iso ? lerDataHora(`${iso[3]}/${iso[2]}/${iso[1]} ${iso[4]}:${iso[5]}`) : lerDataHora(String(a.data || ''));
+  if (!data) throw new Error('--data inválida. Use "20/10/2026 18:30" (horário de Brasília).');
+  if (data.quando.getTime() < Date.now()) throw new Error('Essa data já passou.');
+
+  const id = gravarPost({ fila: lerFila(), tipo, imagens: itens, legenda, data });
+  console.log(`OK ${id} | ${NOMES[tipo]} | ${itens.length} imagem(ns) | ${data.iso}`);
+}
+
 async function main() {
+  const args = argumentos();
+  if (Object.keys(args).length) return modoLinha(args);
+
   const fila = lerFila();
   const usadas = new Set(fila.filter((p) => p.status === 'pendente').flatMap((p) => p.imagens));
 
@@ -97,14 +157,7 @@ async function main() {
     else data = d;
   }
 
-  const base = `${data.iso.slice(0, 10).replace(/-/g, '')}-${data.iso.slice(11, 16).replace(':', '')}-${NOMES[tipo]}`;
-  let id = base;
-  for (let n = 2; fila.some((p) => p.id === id); n++) id = `${base}-${n}`;
-
-  fila.push({ id, tipo, imagens, legenda, data_hora: data.iso, status: 'pendente', mensagem_erro: '' });
-  fila.sort((a, b) => Date.parse(a.data_hora) - Date.parse(b.data_hora));
-  gravarFila(fila);
-
+  const id = gravarPost({ fila, tipo, imagens, legenda, data });
   console.log(`\n✔ Adicionado: ${id} — ${NOMES[tipo]}, ${imagens.length} imagem(ns), ${data.iso}`);
   console.log('Agora faça o commit e o push (imagens + fila.json) para valer:');
   console.log('  git add carrossel stories fila.json && git commit -m "Novo post na fila" && git push\n');
