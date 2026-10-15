@@ -49,3 +49,16 @@ Falhas de publicação também deixam a Action vermelha (e-mail do GitHub).
 ## Como funciona
 `.github/workflows/publicar.yml` → `scripts/publicar.js`: cria o container (um por imagem + um do carrossel), espera `FINISHED`, chama `media_publish` e grava o status com commit. O token nunca é impresso (e é removido de qualquer mensagem de erro).
 Se ficar 60 dias sem nenhum commit, o GitHub pausa as Actions agendadas; adicionar posts já evita isso.
+
+## Painel web (Fase 2, opcional)
+Página no Vercel, na pasta `painel/`, para ver a fila e o status, **agendar** (envia as imagens e grava no `fila.json`), **editar**, **remover** e **tentar de novo** um post com erro. Funciona do celular. Protegida por senha.
+
+Configuração no Vercel (*Add New → Project → importar este repositório*):
+1. **Root Directory:** `painel` · Framework: *Other*.
+2. **Environment Variables:**
+   - `PAINEL_SENHA`: a senha do painel (8+ caracteres).
+   - `GITHUB_TOKEN`: token do GitHub só deste repositório com **Contents: Read and write** (*Settings da conta → Developer settings → Fine-grained tokens*).
+3. **Deploy.** O painel só ganha novo deploy quando algo dentro de `painel/` muda (o agendador mexe no `fila.json` toda hora e isso não dispara build).
+
+O painel e o `node adicionar.js` escrevem no mesmo `fila.json`; pode usar os dois.
+O painel não cria destaques, não troca bio/foto e não põe enquete/link/figurinha em story (limites da API).
