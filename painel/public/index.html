@@ -160,7 +160,10 @@ async function chamar(url, corpo) {
     method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(corpo),
   });
   const dados = await r.json().catch(() => ({}));
-  if (r.status === 401 && url !== '/api/login') { telaLogin(); throw new Error('Sessão expirada. Entre de novo.'); }
+  if (r.status === 401 && url !== '/api/login') {
+    telaLogin();
+    const e = new Error('Sessão expirada. Entre de novo.'); e.sessao = true; throw e;
+  }
   if (!r.ok) throw new Error(dados.erro || 'Erro ' + r.status);
   return dados;
 }
@@ -179,7 +182,7 @@ async function entrar() {
   mostrarErro($('loginErro'), '');
   $('entrar').disabled = true;
   try { await chamar('/api/login', { senha: $('senha').value }); $('senha').value = ''; await carregar(); }
-  catch (e) { mostrarErro($('loginErro'), e.message); }
+  catch (e) { telaLogin(); mostrarErro($('loginErro'), e.message); }
   finally { $('entrar').disabled = false; }
 }
 $('entrar').onclick = entrar;
@@ -187,14 +190,14 @@ $('senha').onkeydown = (e) => { if (e.key === 'Enter') entrar(); };
 $('sair').onclick = async () => { await fetch('/api/sair', { method: 'POST' }); telaLogin(); };
 
 // ---------- lista ----------
+// Lança erro se falhar (quem chama decide como mostrar).
 async function carregar() {
-  try {
-    const d = await chamar('/api/fila');
-    estado = { ...estado, posts: d.posts, repo: d.repo, branch: d.branch };
-    $('login').hidden = true; $('app').hidden = false;
-    desenhar();
-  } catch (e) { if ($('app').hidden) telaLogin(); else aviso(e.message); }
+  const d = await chamar('/api/fila');
+  estado = { ...estado, posts: d.posts, repo: d.repo, branch: d.branch };
+  $('login').hidden = true; $('app').hidden = false;
+  desenhar();
 }
+const recarregar = () => carregar().catch((e) => aviso(e.message));
 
 function desenhar() {
   const cont = (s) => estado.posts.filter((p) => s === 'todos' || p.status === s).length;
@@ -254,7 +257,7 @@ function cartao(p) {
 async function remover(p, botao) {
   if (!confirm('Remover este post da fila? As imagens continuam no repositório.')) return;
   botao.disabled = true;
-  try { await chamar('/api/fila', { acao: 'remover', id: p.id }); aviso('Removido.'); await carregar(); }
+  try { await chamar('/api/fila', { acao: 'remover', id: p.id }); aviso('Removido.'); await recarregar(); }
   catch (e) { aviso(e.message); botao.disabled = false; }
 }
 
@@ -275,7 +278,7 @@ $('salvarEditar').onclick = async () => {
   if ($('editarQuando').value) corpo.data_hora = $('editarQuando').value;
   if (editando.tipo !== 'STORY') corpo.legenda = $('editarLegenda').value;
   $('salvarEditar').disabled = true; mostrarErro($('editarErro'), '');
-  try { await chamar('/api/fila', corpo); $('dlgEditar').close(); aviso('Salvo.'); await carregar(); }
+  try { await chamar('/api/fila', corpo); $('dlgEditar').close(); aviso('Salvo.'); await recarregar(); }
   catch (e) { mostrarErro($('editarErro'), e.message); }
   finally { $('salvarEditar').disabled = false; }
 };
@@ -373,12 +376,15 @@ $('agendar').onclick = async () => {
     }
     botao.textContent = 'Agendando…';
     await chamar('/api/fila', { acao: 'adicionar', tipo, imagens: caminhos, legenda: tipo === 'STORY' ? '' : $('legenda').value, data_hora: $('quando').value });
-    $('dlgNovo').close(); aviso('Agendado!'); await carregar();
+    $('dlgNovo').close(); aviso('Agendado!'); await recarregar();
   } catch (e) { mostrarErro(erro, e.message); }
   finally { botao.disabled = false; botao.textContent = 'Agendar'; }
 };
 
-carregar();
+carregar().catch((e) => {
+  telaLogin();
+  if (!e.sessao) mostrarErro($('loginErro'), e.message); // sem sessão é normal; qualquer outro erro aparece
+});
 </script>
 </body>
 </html>
