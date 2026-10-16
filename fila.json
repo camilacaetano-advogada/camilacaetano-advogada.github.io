@@ -47,7 +47,7 @@
     ],
     "legenda": "Contrato de publi não é só valor e prazo de entrega.\n\nA cláusula de uso e a de pagamento mudam quanto você ganha de verdade.\n\nSalva e comenta CONTRATO que eu te mando o Raio-X do Contrato no direct.",
     "data_hora": "2026-10-16T19:00:00-03:00",
-    "status": "pendente",
-    "mensagem_erro": ""
+    "status": "erro",
+    "mensagem_erro": "API access blocked. (código 200)"
   }
 ]
