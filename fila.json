@@ -32,5 +32,22 @@
     "publicado_em": "2026-10-16T00:35:54.368Z",
     "permalink": "https://www.instagram.com/p/DeiQmBuiRvK/",
     "midia_id": "18341633053280670"
+  },
+  {
+    "id": "20261016-1900-carrossel",
+    "tipo": "CAROUSEL",
+    "imagens": [
+      "carrossel/c3-1.jpg",
+      "carrossel/c3-2.jpg",
+      "carrossel/c3-3.jpg",
+      "carrossel/c3-4.jpg",
+      "carrossel/c3-5.jpg",
+      "carrossel/c3-6.jpg",
+      "carrossel/c3-7.jpg"
+    ],
+    "legenda": "Contrato de publi não é só valor e prazo de entrega.\n\nA cláusula de uso e a de pagamento mudam quanto você ganha de verdade.\n\nSalva e comenta CONTRATO que eu te mando o Raio-X do Contrato no direct.",
+    "data_hora": "2026-10-16T19:00:00-03:00",
+    "status": "pendente",
+    "mensagem_erro": ""
   }
 ]
